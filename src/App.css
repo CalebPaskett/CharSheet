@@ -36,3 +36,98 @@
     transform: rotate(360deg);
   }
 }
+
+.top-bar {
+  position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+  height: 36px;
+	padding: 8px;
+  background: #6e6e6e;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}
+
+.drawer {
+	position: fixed;
+	left: 0;
+	top: 51px;
+	bottom: 0;
+	width: 200px;
+	background: lightgray;
+	border:1px solid gray;
+  z-index: 1;
+  overflow-y: auto;
+  transition: all .3s ease;
+  padding: 4px;
+}
+
+.drawer-close {
+	left:-210px;
+}
+
+.button {
+  font-weight: 700;
+  padding: 8px;
+  margin-right: 8px;
+  border-radius: 0.5rem;
+}
+
+.log-out {
+  position: absolute;
+  right: 0px;
+}
+
+.settings {
+  position: absolute;
+  right: 76px;
+}
+
+.save {
+  position: fixed;
+  right: 8px;
+  bottom: 16px;
+  width: 128px;
+}
+
+.main-view{
+  box-sizing: border-box;
+  position: fixed;
+  top: 52px;
+  height: calc(100vh - 52px);
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.card {
+  padding: 8px;
+  position: relative;
+  border:1px solid darkgray;
+  border-radius: 0.5rem;
+  margin-bottom: 8px;
+}
+
+.card-save {
+  position: absolute;
+  right: 0px;
+  bottom: 8px;
+  width: 88px;
+}
+
+.card-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.character {
+  padding: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+  text-align: left;
+}

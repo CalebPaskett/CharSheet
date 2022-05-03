@@ -1,20 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
 import {getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth';
-import { useContext, useEffect, useState } from 'react';
-import { HashRouter } from 'react-router-dom';
-import { Router } from './components/router';
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
-function App() {
+export const SignIn = () => {
+  const [loadingAuth, setLoadingAuth] = useState(true);
   const [user, setUser] = useState(null);
 	const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
+    document.title = "Sign In - Hero Sheet"
+
 		const auth = getAuth();
 		onAuthStateChanged(auth, (user) => {
 			setUser(user); //updates the user whenever it changes
+      setLoadingAuth(false);
 		});
   }, []);
 
@@ -54,17 +55,33 @@ function App() {
       }
     });
 	}
-	
-	const logOut = () => {
-		const auth = getAuth();
-		signOut(auth);
+
+  if (loadingAuth) {
+    return <div>Loading, please wait</div>;
   }
 
   return (
-    <HashRouter>
-      <Router />
-    </HashRouter>
+    <div>
+      {!user && (
+        <div>
+          <div>Email</div>
+          <input type="email" value={email} onChange={(e) =>setEmail(e.target.value)}/>
+          <div>Password</div>
+          <input type="password" value={password} onChange={(e) =>setPassword(e.target.value)}/>
+          <button type="button" onClick={signIn}>Sign in</button>
+          <button type="button" onClick={signUp}> Sign Up </button>
+        </div>
+      )}
+      {error && (
+        <div>
+          { error }
+        </div>
+      )}
+      {user && (
+				<div>
+          <Navigate push to={"/"}/>
+				</div>
+			)}
+    </div>
   );
 }
-
-export default App;
