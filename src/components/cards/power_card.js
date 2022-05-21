@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, setDoc, getFirestore, updateDoc, arrayRemove} from "firebase/firestore";
+import {doc, getDoc, setDoc, getFirestore, updateDoc, arrayRemove} from "firebase/firestore";
 
 export const PowerCard = (props) => {
   const [saveStat, setSaveStat] = useState("Save");
@@ -8,8 +8,8 @@ export const PowerCard = (props) => {
   const [desc, setDesc] = useState("");
 
   useEffect(() => {
-    setName(props.powers[props.index].name);
-    setDesc(props.powers[props.index].description);
+    setName(props.power.name);
+    setDesc(props.power.description);
   }, [props]);
 
   const saveChanges = async () => {
@@ -22,7 +22,8 @@ export const PowerCard = (props) => {
 
     const db = getFirestore();
 
-    var newArray = props.powers;
+    let character = await getDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId));
+    var newArray = character.data().powers;
     newArray[props.index] = changed;
 
     await setDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
@@ -35,8 +36,9 @@ export const PowerCard = (props) => {
 
   const deleteComp = async () => {
     const db = getFirestore();
-    await updateDoc(doc(db,  ("users/"+props.userId+"/characters"), props.characterId), {
-      powers: arrayRemove(props.powers[props.index]),
+
+    await updateDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
+      powers: arrayRemove(props.power),
     });
   }
 

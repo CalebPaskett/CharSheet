@@ -1,40 +1,6 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.primary-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 .top-bar {
@@ -44,20 +10,32 @@
 	right: 0;
   height: 36px;
 	padding: 8px;
+  padding-right: 0px;
   background: #6e6e6e;
   display: flex;
   flex-direction: row;
   overflow-x: auto;
 }
 
+.nav-options {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.filler {
+  flex-grow: 1;
+}
+
 .drawer {
 	position: fixed;
 	left: 0;
-	top: 51px;
+	top: 52px;
 	bottom: 0;
 	width: 200px;
 	background: lightgray;
-	border:1px solid gray;
+	border: 1px solid gray;
   z-index: 1;
   overflow-y: auto;
   transition: all .3s ease;
@@ -73,16 +51,6 @@
   padding: 8px;
   margin-right: 8px;
   border-radius: 0.5rem;
-}
-
-.log-out {
-  position: absolute;
-  right: 0px;
-}
-
-.settings {
-  position: absolute;
-  right: 76px;
 }
 
 .save {

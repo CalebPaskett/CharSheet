@@ -42,7 +42,7 @@ export const Powers = (props) => {
       <div>
         {powers && powers.map((power, index) => (
             <div key={index}>
-              <PowerCard powers={powers} index={index} userId={props.user.uid} characterId={props.character.id}/>
+              <PowerCard index={index} power={powers[index]} userId={props.user.uid} characterId={props.character.id}/>
             </div>
           ))}
 

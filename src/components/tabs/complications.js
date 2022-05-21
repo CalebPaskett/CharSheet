@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, setDoc, getFirestore, updateDoc, arrayUnion} from "firebase/firestore";
+import {doc, getFirestore, updateDoc, arrayUnion} from "firebase/firestore";
 import { ComplicationCard } from '../cards/complication_card';
 
 export const Complications = (props) => {
@@ -27,11 +27,6 @@ export const Complications = (props) => {
     await updateDoc(doc(db,  ("users/"+props.user.uid+"/characters"), props.character.id), {
       complications: arrayUnion(data),
     });
-
-    await setDoc(doc(db, ("users/"+props.user.uid+"/characters"), props.character.id), {
-			changeMarker: false,
-    }, {merge: true})
-
   }
 
   if (loading) {

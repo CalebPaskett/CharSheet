@@ -1,6 +1,6 @@
-import {getAuth, onAuthStateChanged, signOut} from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { useEffect, useState, useRef } from 'react';
-import {addDoc, collection, onSnapshot, getFirestore} from "firebase/firestore";
+import { addDoc, collection, onSnapshot, getFirestore } from "firebase/firestore";
 import { FaBars } from 'react-icons/fa';
 import { IoMdSettings } from 'react-icons/io'
 import { Route, Routes, Navigate } from 'react-router-dom';
@@ -16,9 +16,7 @@ import { Talents } from '../tabs/talents';
 import { Settings } from '../tabs/settings';
 
 export const Home = () => {
-  const [loadingAuth, setLoadingAuth] = useState(true);
   const [loadingChars, setLoadingChars] = useState(true);
-  const [user, setUser] = useState(null);
   const [characters, setCharacters] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [sideBar, setSideBar] = useState(false);
@@ -26,12 +24,6 @@ export const Home = () => {
 
   useEffect(() => {
     document.title = ("Loading... - Hero Sheet");
-
-		const auth = getAuth();
-		onAuthStateChanged(auth, (user) => {
-			setUser(user); //updates the user whenever it changes
-      setLoadingAuth(false);
-		});
 
     //get characters
     const db = getFirestore();
@@ -91,7 +83,7 @@ export const Home = () => {
       leaping: "4",
     };
     
-		await addDoc(collection(db, ("users/"+user.uid+"/characters")), {
+		await addDoc(collection(db, ("users/"+getAuth().currentUser.uid+"/characters")), {
       about: about,
       characteristics: characteristics,
       skills: [],
@@ -108,54 +100,61 @@ export const Home = () => {
 		signOut(auth);
   }
 
-  if (loadingAuth || loadingChars) {
+  const changeChar = (index) => {
+    setSideBar(false);
+    setCurrentIndex(index);
+  }
+
+  if (loadingChars) {
     return <div>Loading, please wait</div>;
   }
 
   return (
       <div className='primary-container'>
-        <div className='top-bar'>
-          <button type="button" className="button" onClick={() => (setSideBar(!sideBar))}><FaBars /></button>
-          <button type="button" className="log-out button" onClick={logOut}>Logout</button>
+        <header className='top-bar'>
+          <nav className='nav-options'>
+            <button type="button" className="button" onClick={() => (setSideBar(!sideBar))}><FaBars /></button>
+            
+            {(currentIndex != null) && <div>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/about")}>About</button>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/characteristics")}>Characteristics</button>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/skills")}>Skills</button>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/perks")}>Perks</button>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/talents")}>Talents</button>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/martial")}>Martial</button>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/powers")}>Powers</button>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/complications")}>Complications</button>
+            </div>}
 
-          {(currentIndex != null) && <div>
+            <div className='filler'/>
+             
+            {(currentIndex != null) && <button type="button" className="button" onClick={() => (window.location.href = "/#/settings")}><IoMdSettings/></button>}
+            <button type="button" className="button" onClick={logOut}>Logout</button>
+          </nav>
+        </header>
 
-
-          <button type="button" className="button" onClick={() => (window.location.href = "/#/about")}>About</button>
-          <button type="button" className="button" onClick={() => (window.location.href = "/#/characteristics")}>Characteristics</button>
-          <button type="button" className="button" onClick={() => (window.location.href = "/#/skills")}>Skills</button>
-          <button type="button" className="button" onClick={() => (window.location.href = "/#/perks")}>Perks</button>
-          <button type="button" className="button" onClick={() => (window.location.href = "/#/talents")}>Talents</button>
-          <button type="button" className="button" onClick={() => (window.location.href = "/#/martial")}>Martial</button>
-          <button type="button" className="button" onClick={() => (window.location.href = "/#/powers")}>Powers</button>
-          <button type="button" className="button" onClick={() => (window.location.href = "/#/complications")}>Complications</button>
-
-          <button type="button" className="settings button" onClick={() => (window.location.href = "/#/settings")}><IoMdSettings/></button>
-          </div>}
-        </div>
-        
         <div className={sideBar ? 'drawer' : 'drawer drawer-close'}> 
-          {characters.map((character, index) => (
-            <div key={character.id}>
-              <button type="button" className="character" onClick={() => (setSideBar(false), setCurrentIndex(index))}>{character.about.name}</button>
-            </div>
-          ))}
-          <button type="button" onClick={genEmptyCharacter}>New Character</button>
-        </div>
+            {characters.map((character, index) => (
+              <div key={character.id}>
+                <button type="button" className="character" onClick={() => (changeChar(index))}>{character.about.name}</button>
+              </div>
+            ))}
+            <button type="button" onClick={genEmptyCharacter}>New Character</button>
+          </div>
         
         <div className='main-view'>
           {!(currentIndex != null) && <div>Select a character from the sidebar</div>}
           {(currentIndex != null) && <div>
           <Routes>
-            <Route path="about" element={<About user={user} character={characters[currentIndex]}/>} />
-            <Route path="characteristics" element={<Characteristics user={user} character={characters[currentIndex]}/>} />
-            <Route path="complications" element={<Complications user={user} character={characters[currentIndex]}/>} />
-            <Route path="martial" element={<Martial user={user} character={characters[currentIndex]}/>} />
-            <Route path="perks" element={<Perks user={user} character={characters[currentIndex]}/>} />
-            <Route path="powers" element={<Powers user={user} character={characters[currentIndex]}/>} />
-            <Route path="skills" element={<Skills user={user} character={characters[currentIndex]}/>} />
-            <Route path="talents" element={<Talents user={user} character={characters[currentIndex]}/>} />
-            <Route path="settings" element={<Settings user={user} character={characters[currentIndex]}/>} />
+            <Route path="about" element={<About user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="characteristics" element={<Characteristics user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="complications" element={<Complications user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="martial" element={<Martial user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="perks" element={<Perks user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="powers" element={<Powers user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="skills" element={<Skills user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="talents" element={<Talents user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="settings" element={<Settings user={getAuth().currentUser} character={characters[currentIndex]}/>} />
 
             <Route path="/*" element={<Navigate push to={"about"}/>} />
           </Routes>
