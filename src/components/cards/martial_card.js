@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, setDoc, getFirestore, updateDoc, arrayRemove} from "firebase/firestore";
+import { doc, getDoc, setDoc, getFirestore, updateDoc, arrayRemove } from "firebase/firestore";
 
 export const MartialCard = (props) => {
   const [saveStat, setSaveStat] = useState("Save");
@@ -8,8 +8,8 @@ export const MartialCard = (props) => {
   const [desc, setDesc] = useState("");
 
   useEffect(() => {
-    setName(props.martials[props.index].name);
-    setDesc(props.martials[props.index].description);
+    setName(props.martial.name);
+    setDesc(props.martial.description);
   }, [props]);
 
   const saveChanges = async () => {
@@ -22,7 +22,8 @@ export const MartialCard = (props) => {
 
     const db = getFirestore();
 
-    var newArray = props.martials;
+    let character = await getDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId));
+    var newArray = character.data().martials;
     newArray[props.index] = changed;
 
     await setDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
@@ -33,10 +34,11 @@ export const MartialCard = (props) => {
     setTimeout(function() {setSaveStat("Save");}, 500);
   }
 
-  const deleteComp = async () => {
+  const deleteMartial = async () => {
     const db = getFirestore();
-    await updateDoc(doc(db,  ("users/"+props.userId+"/characters"), props.characterId), {
-      martials: arrayRemove(props.martials[props.index]),
+
+    await updateDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
+      martials: arrayRemove(props.martial),
     });
   }
 
@@ -45,7 +47,7 @@ export const MartialCard = (props) => {
       <input type="text" value={name} onChange={(e) =>setName(e.target.value)}/><br/>
       <textarea value={desc} onChange={(e) => setDesc(e.target.value)}/>
       <button type="button" className='card-save button' onClick={saveChanges}>{saveStat}</button>
-      <button type="button" className='card-delete' onClick={deleteComp}>X</button>
+      <button type="button" className='card-delete' onClick={deleteMartial}>X</button>
     </div>
-);
+  );
 }

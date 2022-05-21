@@ -1,6 +1,6 @@
 import { getAuth, signOut } from 'firebase/auth';
 import { useEffect, useState, useRef } from 'react';
-import { addDoc, collection, onSnapshot, getFirestore } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, getFirestore, deleteDoc, doc } from "firebase/firestore";
 import { FaBars } from 'react-icons/fa';
 import { IoMdSettings } from 'react-icons/io'
 import { Route, Routes, Navigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ import { Skills } from '../tabs/skills';
 import { Talents } from '../tabs/talents';
 import { Settings } from '../tabs/settings';
 
-export const Home = () => {
+export const Home = (props) => {
   const [loadingChars, setLoadingChars] = useState(true);
   const [characters, setCharacters] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -39,14 +39,15 @@ export const Home = () => {
 			});
       setCharacters([...charactersRef.current])
       
-      setLoadingChars(false);
       document.title = ("Hero Sheet");
+      setLoadingChars(false);
 		});
 		
 		return unsubscribe;
   }, []);
 
   const genEmptyCharacter = async () => {
+    setLoadingChars(true);
     const db = getFirestore();
 
     var about = {
@@ -83,7 +84,7 @@ export const Home = () => {
       leaping: "4",
     };
     
-		await addDoc(collection(db, ("users/"+getAuth().currentUser.uid+"/characters")), {
+		await addDoc(collection(db, ("users/"+props.user.uid+"/characters")), {
       about: about,
       characteristics: characteristics,
       skills: [],
@@ -92,7 +93,11 @@ export const Home = () => {
       martials: [],
       powers: [],
       complications: [],
-    })
+    });
+
+    setCurrentIndex(characters.length);
+    window.location.href = "/#/about";
+    setLoadingChars(false);
   }
 
   const logOut = () => {
@@ -100,9 +105,28 @@ export const Home = () => {
 		signOut(auth);
   }
 
+  const delAccount = async () => {
+    const db = getFirestore();
+    const user = getAuth().currentUser;
+
+    for (let character of characters) {
+      await deleteDoc(doc(db, ("users/"+user.uid+"/characters"), character.id));
+    }
+
+    await deleteDoc(doc(db, ("users/"), user.uid));
+
+    console.log(user.delete());
+  }
+
   const changeChar = (index) => {
     setSideBar(false);
     setCurrentIndex(index);
+  }
+
+  const returnHome = () => {
+    setSideBar(false);
+    window.location.href = "/#/";
+    setCurrentIndex(null);
   }
 
   if (loadingChars) {
@@ -139,22 +163,27 @@ export const Home = () => {
                 <button type="button" className="character" onClick={() => (changeChar(index))}>{character.about.name}</button>
               </div>
             ))}
-            <button type="button" onClick={genEmptyCharacter}>New Character</button>
+            <button type="button" className="button" onClick={genEmptyCharacter}>New Character</button>
+            <button type="button" className="button" onClick={returnHome}>Home</button>
           </div>
         
         <div className='main-view'>
-          {!(currentIndex != null) && <div>Select a character from the sidebar</div>}
+          {!(currentIndex != null) && <div>
+            Select a character from the sidebar
+            <button type="button" className="button" onClick={delAccount}>Delete Account</button>
+          </div>}
+
           {(currentIndex != null) && <div>
           <Routes>
-            <Route path="about" element={<About user={getAuth().currentUser} character={characters[currentIndex]}/>} />
-            <Route path="characteristics" element={<Characteristics user={getAuth().currentUser} character={characters[currentIndex]}/>} />
-            <Route path="complications" element={<Complications user={getAuth().currentUser} character={characters[currentIndex]}/>} />
-            <Route path="martial" element={<Martial user={getAuth().currentUser} character={characters[currentIndex]}/>} />
-            <Route path="perks" element={<Perks user={getAuth().currentUser} character={characters[currentIndex]}/>} />
-            <Route path="powers" element={<Powers user={getAuth().currentUser} character={characters[currentIndex]}/>} />
-            <Route path="skills" element={<Skills user={getAuth().currentUser} character={characters[currentIndex]}/>} />
-            <Route path="talents" element={<Talents user={getAuth().currentUser} character={characters[currentIndex]}/>} />
-            <Route path="settings" element={<Settings user={getAuth().currentUser} character={characters[currentIndex]}/>} />
+            <Route path="about" element={<About user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="characteristics" element={<Characteristics user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="complications" element={<Complications user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="martial" element={<Martial user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="perks" element={<Perks user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="powers" element={<Powers user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="skills" element={<Skills user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="talents" element={<Talents user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="settings" element={<Settings user={props.user} character={characters[currentIndex]}/>} />
 
             <Route path="/*" element={<Navigate push to={"about"}/>} />
           </Routes>

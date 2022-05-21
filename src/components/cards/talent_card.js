@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, setDoc, getFirestore, updateDoc, arrayRemove} from "firebase/firestore";
+import { doc, getDoc, setDoc, getFirestore, updateDoc, arrayRemove } from "firebase/firestore";
 
 export const TalentCard = (props) => {
   const [saveStat, setSaveStat] = useState("Save");
@@ -8,8 +8,8 @@ export const TalentCard = (props) => {
   const [desc, setDesc] = useState("");
 
   useEffect(() => {
-    setName(props.talents[props.index].name);
-    setDesc(props.talents[props.index].description);
+    setName(props.talent.name);
+    setDesc(props.talent.description);
   }, [props]);
 
   const saveChanges = async () => {
@@ -22,7 +22,8 @@ export const TalentCard = (props) => {
 
     const db = getFirestore();
 
-    var newArray = props.talents;
+    let character = await getDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId));
+    var newArray = character.data().talents;
     newArray[props.index] = changed;
 
     await setDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
@@ -33,10 +34,11 @@ export const TalentCard = (props) => {
     setTimeout(function() {setSaveStat("Save");}, 500);
   }
 
-  const deleteComp = async () => {
+  const deleteTalent = async () => {
     const db = getFirestore();
-    await updateDoc(doc(db,  ("users/"+props.userId+"/characters"), props.characterId), {
-      talents: arrayRemove(props.talents[props.index]),
+
+    await updateDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
+      talents: arrayRemove(props.talent),
     });
   }
 
@@ -45,7 +47,7 @@ export const TalentCard = (props) => {
       <input type="text" value={name} onChange={(e) =>setName(e.target.value)}/><br/>
       <textarea value={desc} onChange={(e) => setDesc(e.target.value)}/>
       <button type="button" className='card-save button' onClick={saveChanges}>{saveStat}</button>
-      <button type="button" className='card-delete' onClick={deleteComp}>X</button>
+      <button type="button" className='card-delete' onClick={deleteTalent}>X</button>
     </div>
-);
+  );
 }

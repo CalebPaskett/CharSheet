@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, getDoc, setDoc, getFirestore, updateDoc, arrayRemove} from "firebase/firestore";
+import { doc, getDoc, setDoc, getFirestore, updateDoc, arrayRemove } from "firebase/firestore";
 
 export const PowerCard = (props) => {
   const [saveStat, setSaveStat] = useState("Save");
@@ -34,7 +34,7 @@ export const PowerCard = (props) => {
     setTimeout(function() {setSaveStat("Save");}, 500);
   }
 
-  const deleteComp = async () => {
+  const deletePower = async () => {
     const db = getFirestore();
 
     await updateDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
@@ -47,7 +47,7 @@ export const PowerCard = (props) => {
       <input type="text" value={name} onChange={(e) =>setName(e.target.value)}/><br/>
       <textarea value={desc} onChange={(e) => setDesc(e.target.value)}/>
       <button type="button" className='card-save button' onClick={saveChanges}>{saveStat}</button>
-      <button type="button" className='card-delete' onClick={deleteComp}>X</button>
+      <button type="button" className='card-delete' onClick={deletePower}>X</button>
     </div>
-);
+  );
 }

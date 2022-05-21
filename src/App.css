@@ -51,6 +51,7 @@
   padding: 8px;
   margin-right: 8px;
   border-radius: 0.5rem;
+  cursor: pointer;
 }
 
 .save {
@@ -98,4 +99,5 @@
   margin-bottom: 8px;
   width: 100%;
   text-align: left;
+  cursor: pointer;
 }

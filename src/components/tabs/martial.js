@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, setDoc, getFirestore, updateDoc, arrayUnion} from "firebase/firestore";
+import {doc, getFirestore, updateDoc, arrayUnion} from "firebase/firestore";
 import { MartialCard } from '../cards/martial_card';
 
 export const Martial = (props) => {
@@ -27,11 +27,6 @@ export const Martial = (props) => {
     await updateDoc(doc(db,  ("users/"+props.user.uid+"/characters"), props.character.id), {
       martials: arrayUnion(data),
     });
-
-    await setDoc(doc(db, ("users/"+props.user.uid+"/characters"), props.character.id), {
-			changeMarker: false,
-    }, {merge: true})
-
   }
 
   if (loading) {
@@ -42,7 +37,7 @@ export const Martial = (props) => {
       <div>
         {martials && martials.map((martial, index) => (
             <div key={index}>
-              <MartialCard martials={martials} index={index} userId={props.user.uid} characterId={props.character.id}/>
+              <MartialCard index={index} martial={martial} userId={props.user.uid} characterId={props.character.id}/>
             </div>
           ))}
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, setDoc, getFirestore, updateDoc, arrayRemove} from "firebase/firestore";
+import { doc, getDoc, setDoc, getFirestore, updateDoc, arrayRemove } from "firebase/firestore";
 
 export const SkillCard = (props) => {
   const [saveStat, setSaveStat] = useState("Save");
@@ -8,8 +8,8 @@ export const SkillCard = (props) => {
   const [desc, setDesc] = useState("");
 
   useEffect(() => {
-    setName(props.skills[props.index].name);
-    setDesc(props.skills[props.index].description);
+    setName(props.skill.name);
+    setDesc(props.skill.description);
   }, [props]);
 
   const saveChanges = async () => {
@@ -22,7 +22,8 @@ export const SkillCard = (props) => {
 
     const db = getFirestore();
 
-    var newArray = props.skills;
+    let character = await getDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId));
+    var newArray = character.data().skills;
     newArray[props.index] = changed;
 
     await setDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
@@ -33,10 +34,11 @@ export const SkillCard = (props) => {
     setTimeout(function() {setSaveStat("Save");}, 500);
   }
 
-  const deleteComp = async () => {
+  const deleteSkill = async () => {
     const db = getFirestore();
-    await updateDoc(doc(db,  ("users/"+props.userId+"/characters"), props.characterId), {
-      skills: arrayRemove(props.skills[props.index]),
+
+    await updateDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
+      skills: arrayRemove(props.skill),
     });
   }
 
@@ -45,7 +47,7 @@ export const SkillCard = (props) => {
       <input type="text" value={name} onChange={(e) =>setName(e.target.value)}/><br/>
       <textarea value={desc} onChange={(e) => setDesc(e.target.value)}/>
       <button type="button" className='card-save button' onClick={saveChanges}>{saveStat}</button>
-      <button type="button" className='card-delete' onClick={deleteComp}>X</button>
+      <button type="button" className='card-delete' onClick={deleteSkill}>X</button>
     </div>
-);
+  );
 }

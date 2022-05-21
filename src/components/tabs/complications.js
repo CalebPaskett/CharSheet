@@ -37,7 +37,7 @@ export const Complications = (props) => {
       <div>
         {complications && complications.map((complication, index) => (
             <div key={index}>
-              <ComplicationCard complications={complications} index={index} userId={props.user.uid} characterId={props.character.id}/>
+              <ComplicationCard index={index} complication={complication} userId={props.user.uid} characterId={props.character.id}/>
             </div>
           ))}
 
