@@ -83,9 +83,16 @@ export const SignIn = () => {
   }
 
   return (
-    <div className="login-box">
-      {!user && (
+    <div>
+      {user && (
+          <div>
+            <Navigate push to={"/"}/>
+          </div>
+        )}
+
+      <div className='login-box'>
         <div>
+          <h2 className='centered'>Hero Sheet</h2>
           <input type="email" className={eError ? 'invalid login' : 'login'} placeholder="Email" value={email} onChange={(e) =>setEmail(e.target.value)}/>
           <br/>
           <input type="password" className={pError ? 'invalid login' : 'login'} placeholder="Password" value={password} onChange={(e) =>setPassword(e.target.value)}/>
@@ -93,17 +100,17 @@ export const SignIn = () => {
           <button type="button" className='login button' onClick={signIn}>Sign in</button>
           <button type="button" className='login button' style={{marginBottom: "0px"}}onClick={signUp}>Sign Up</button>
         </div>
-      )}
-      {error && (
-        <div className='error'>
-          { error }
-        </div>
-      )}
-      {user && (
-				<div>
-          <Navigate push to={"/"}/>
-				</div>
-			)}
+
+        {error && (
+          <div className='error'>
+            { error }
+          </div>
+        )}
+      </div>
+
+      <div className='disclaimer'>
+        This is a free hobby project. Emails and Passwords are used only for differentiating accounts. Still, please do not store anything valuable or sensitive on this site. 
+      </div>
     </div>
   );
 }

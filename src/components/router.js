@@ -6,13 +6,24 @@ import { SignIn } from './sign_in/sign_in';
 
 export const Router = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 		const auth = getAuth();
 		onAuthStateChanged(auth, (user) => {
 			setUser(user); //updates the user whenever it changes
 		});
+
+    setLoading(false);
   }, []);
+
+  if (loading) {
+    return (
+      <div className='loading'>
+        <div className='loader'></div>
+      </div>
+    )
+  }
 
   return (
     <Routes>

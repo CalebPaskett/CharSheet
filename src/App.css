@@ -109,6 +109,7 @@
   margin: auto;
   width: 20%;
   margin-top: 5%;
+  text-align: center;
 }
 
 .login {
@@ -122,6 +123,23 @@
 .error {
   color: red;
   text-align: center;
+}
+
+.centered {
+  text-align: center;
+  margin-top: 0;
+}
+
+.disclaimer {
+  padding: 12px;
+  border:1px solid darkgray;
+  border-radius: 0.5rem;
+  margin: auto;
+  width: 20%;
+  margin-top: 8px;
+  text-align: center;
+  font-size: smaller;
+  font-family: monospace;
 }
 
 .invalid {
