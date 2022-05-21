@@ -54,7 +54,7 @@ export const About = (props) => {
   }
 
   if (loading) {
-    return <div>Loading, please wait</div>;
+    return <div></div>;
   }
 
   return (

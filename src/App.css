@@ -101,3 +101,51 @@
   text-align: left;
   cursor: pointer;
 }
+
+.login-box {
+  padding: 12px;
+  border:1px solid darkgray;
+  border-radius: 0.5rem;
+  margin: auto;
+  width: 20%;
+  margin-top: 5%;
+}
+
+.login {
+  padding: 6px;
+  margin-bottom: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.invalid {
+  background-color: #ffdddd;
+  border-color: #c00000;
+}
+
+.loading {
+  margin: auto;
+  width: fit-content;
+  margin-top: 10%;
+  text-align: center;
+}
+
+.loader {
+  border: 16px solid #f3f3f3; 
+  border-top: 16px solid #6e6e6e; 
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

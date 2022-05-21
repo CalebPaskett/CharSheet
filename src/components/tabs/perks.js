@@ -30,7 +30,7 @@ export const Perks = (props) => {
   }
 
   if (loading) {
-    return <div>Loading, please wait</div>;
+    return <div></div>;
   }
 
   return (

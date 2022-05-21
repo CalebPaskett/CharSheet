@@ -16,7 +16,7 @@ import { Talents } from '../tabs/talents';
 import { Settings } from '../tabs/settings';
 
 export const Home = (props) => {
-  const [loadingChars, setLoadingChars] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [characters, setCharacters] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [sideBar, setSideBar] = useState(false);
@@ -40,14 +40,14 @@ export const Home = (props) => {
       setCharacters([...charactersRef.current])
       
       document.title = ("Hero Sheet");
-      setLoadingChars(false);
+      setLoading(false);
 		});
 		
 		return unsubscribe;
   }, []);
 
   const genEmptyCharacter = async () => {
-    setLoadingChars(true);
+    setLoading(true);
     const db = getFirestore();
 
     var about = {
@@ -97,7 +97,7 @@ export const Home = (props) => {
 
     setCurrentIndex(characters.length);
     window.location.href = "/#/about";
-    setLoadingChars(false);
+    setLoading(false);
   }
 
   const logOut = () => {
@@ -129,8 +129,12 @@ export const Home = (props) => {
     setCurrentIndex(null);
   }
 
-  if (loadingChars) {
-    return <div>Loading, please wait</div>;
+  if (loading) {
+    return (
+      <div className='loading'>
+        <div className='loader'></div>
+      </div>
+    )
   }
 
   return (

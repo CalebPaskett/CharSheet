@@ -1,6 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import {doc, addDoc, setDoc, collection, onSnapshot, getDocs, getFirestore, deleteDoc} from "firebase/firestore";
-import { reload } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { doc, getFirestore, deleteDoc } from "firebase/firestore";
 
 export const Settings = (props) => {
   const [loading, setLoading] = useState(true);
@@ -16,7 +15,7 @@ export const Settings = (props) => {
   }
 
   if (loading) {
-    return <div>Loading, please wait</div>;
+    return <div></div>;
   }
 
   return (
