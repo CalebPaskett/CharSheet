@@ -59,6 +59,7 @@
   right: 8px;
   bottom: 16px;
   width: 128px;
+  z-index: 1;
 }
 
 .main-view{
@@ -168,4 +169,35 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+	position: fixed;
+	display: flex;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	align-items: center;
+	justify-content: center;
+}
+
+.modal {
+  height: 80%;
+	width: 80%;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 16px;
+  z-index: 2;
+  overflow-y: auto;
 }
