@@ -157,19 +157,19 @@ export const Home = (props) => {
           </nav>
         </header>
 
-        <div className={sideBar ? 'drawer' : 'drawer drawer-close'}> 
-            {characters.map((character, index) => (
-              <div key={character.id}>
-                <button type="button" className="character" onClick={() => (changeChar(index))}>{character.about.name}</button>
-              </div>
-            ))}
-            <button type="button" className="button" onClick={genEmptyCharacter}>New Character</button>
-            <button type="button" className="button" onClick={returnHome}>Home</button>
-          </div>
+        <nav className={sideBar ? 'drawer' : 'drawer drawer-close'}> 
+          {characters.map((character, index) => (
+            <div key={character.id}>
+              <button type="button" className="character" onClick={() => (changeChar(index))}>{character.about.name}</button>
+            </div>
+          ))}
+          <button type="button" className="button" onClick={genEmptyCharacter}>New Character</button>
+          <button type="button" className="button" onClick={returnHome}>Home</button>
+        </nav>
         
         <div className='main-view'>
           {!(currentIndex != null) && <div>
-            Select a character from the sidebar
+            <div>Select a character from the sidebar</div>
             <button type="button" className="button" onClick={delAccount}>Delete Account</button>
           </div>}
 
