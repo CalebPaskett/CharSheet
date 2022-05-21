@@ -85,10 +85,10 @@ export const SignIn = () => {
   return (
     <div>
       {user && (
-          <div>
-            <Navigate push to={"/"}/>
-          </div>
-        )}
+        <div>
+          <Navigate push to={"/"}/>
+        </div>
+      )}
 
       <div className='login-box'>
         <div>
@@ -109,7 +109,7 @@ export const SignIn = () => {
       </div>
 
       <div className='disclaimer'>
-        This is a free hobby project. Emails and Passwords are used only for differentiating accounts. Still, please do not store anything valuable or sensitive on this site. 
+        This is a free hobby project. Emails and Passwords are used only for differentiating accounts. Still, please do not store any valuable or sensitive data on this site. 
       </div>
     </div>
   );

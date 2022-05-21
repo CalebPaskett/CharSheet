@@ -110,10 +110,11 @@
   width: 20%;
   margin-top: 5%;
   text-align: center;
+  min-width: 256px;
 }
 
 .login {
-  padding: 6px;
+  padding: 8px;
   margin-bottom: 8px;
   width: 100%;
   box-sizing: border-box;
@@ -140,6 +141,7 @@
   text-align: center;
   font-size: smaller;
   font-family: monospace;
+  min-width: 256px;
 }
 
 .invalid {
