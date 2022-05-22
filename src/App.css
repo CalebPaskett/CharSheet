@@ -192,7 +192,8 @@
 }
 
 .modal {
-  height: 80%;
+  max-height: 80%;
+  min-width: 400px;
 	width: 80%;
 	background-color: white;
 	display: flex;
@@ -200,4 +201,39 @@
 	padding: 16px;
   z-index: 2;
   overflow-y: auto;
+  border-radius: 0.5rem;
+}
+
+.modal-header {
+  background: #6e6e6e;
+  margin:-16px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.modal button {
+  margin-right: 0;
+  margin-top: 8px;
+}
+
+.modal textarea {
+  resize: none;
+}
+
+.modal-save {
+  margin-left: auto;
+  float: right;
+}
+
+.about-title {
+  text-decoration: underline;
+}
+
+.about-content {
+  text-indent: 50px;
+}
+
+hr.solid {
+  border-top: 1px solid rgb(98, 98, 98);
+  margin: 8px -4px;
 }

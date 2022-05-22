@@ -98,7 +98,7 @@ export const SignIn = () => {
           <input type="password" className={pError ? 'invalid login' : 'login'} placeholder="Password" value={password} onChange={(e) =>setPassword(e.target.value)}/>
           <br/>
           <button type="button" className='login button' onClick={signIn}>Sign in</button>
-          <button type="button" className='login button' style={{marginBottom: "0px"}}onClick={signUp}>Sign Up</button>
+          <button type="button" className='login button' style={{marginBottom: "0px"}} onClick={signUp}>Sign Up</button>
         </div>
 
         {error && (

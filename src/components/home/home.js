@@ -51,7 +51,7 @@ export const Home = (props) => {
     const db = getFirestore();
 
     var about = {
-      name: "Default",
+      name: "New Character",
       nicknames: "",
       background: "",
       personality: "",
