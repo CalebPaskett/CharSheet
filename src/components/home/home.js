@@ -5,6 +5,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 
 import { IoMdSettings } from 'react-icons/io'
 import { IoAccessibilitySharp } from 'react-icons/io5'
+import { ImHome } from "react-icons/im";
 
 import { HomeContent } from './home_content';
 import { About } from '../tabs/about';
@@ -146,6 +147,7 @@ export const Home = (props) => {
             <div className='filler'/>
              
             {(currentIndex != null) && <button type="button" className="button" onClick={() => (window.location.href = "/#/settings")}><IoMdSettings/></button>}
+            <button type="button" className="button" onClick={returnHome}><ImHome/></button>
             <button type="button" className="button" onClick={logOut}>Logout</button>
           </nav>
         </header>
@@ -157,7 +159,6 @@ export const Home = (props) => {
             </div>
           ))}
           <button type="button" className="button" onClick={genEmptyCharacter}>New Character</button>
-          <button type="button" className="button" onClick={returnHome}>Home</button>
         </nav>
         
         <div className='main-view'>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { CharacteristicsModal } from '../modals/characteristics_modal';
 
+import { FaEdit } from "react-icons/fa";
+
 export const Characteristics = (props) => {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -61,7 +63,7 @@ export const Characteristics = (props) => {
 
         <div>LEAPING: {characteristics.leaping}</div>
 
-        {!modal && <button type="button" className="save button" onClick={() => (setModal(true))}>Edit</button>}
+        {!modal && <button type="button" className="save button" onClick={() => (setModal(true))}><FaEdit/></button>}
       </div>
   );
 }

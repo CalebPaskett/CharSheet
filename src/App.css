@@ -58,8 +58,8 @@
   position: fixed;
   right: 8px;
   bottom: 16px;
-  width: 128px;
   z-index: 1;
+  padding:8px;
 }
 
 .main-view{

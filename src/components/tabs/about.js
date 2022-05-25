@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { AboutModal } from '../modals/about_modal';
 
+import { FaEdit } from "react-icons/fa";
+
 export const About = (props) => {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -38,7 +40,7 @@ export const About = (props) => {
         <hr className="solid"/>
         <div className="about-title">Appearance:</div><div className="about-content">{about.appearance}</div>
 
-        {!modal && <button type="button" className="save button" onClick={() => (setModal(true))}>Edit</button>}
+        {!modal && <button type="button" className="save button" onClick={() => (setModal(true))}><FaEdit/></button>}
       </div>
   );
 }
