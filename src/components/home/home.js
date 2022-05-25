@@ -1,10 +1,12 @@
 import { getAuth, signOut } from 'firebase/auth';
 import { useEffect, useState, useRef } from 'react';
-import { addDoc, collection, onSnapshot, getFirestore, deleteDoc, doc } from "firebase/firestore";
-import { FaBars } from 'react-icons/fa';
-import { IoMdSettings } from 'react-icons/io'
+import { addDoc, collection, onSnapshot, getFirestore } from "firebase/firestore";
 import { Route, Routes, Navigate } from 'react-router-dom';
 
+import { IoMdSettings } from 'react-icons/io'
+import { IoAccessibilitySharp } from 'react-icons/io5'
+
+import { HomeContent } from './home_content';
 import { About } from '../tabs/about';
 import { Characteristics } from '../tabs/characteristics'
 import { Complications } from '../tabs/complications';
@@ -105,19 +107,6 @@ export const Home = (props) => {
 		signOut(auth);
   }
 
-  const delAccount = async () => {
-    const db = getFirestore();
-    const user = getAuth().currentUser;
-
-    for (let character of characters) {
-      await deleteDoc(doc(db, ("users/"+user.uid+"/characters"), character.id));
-    }
-
-    await deleteDoc(doc(db, ("users/"), user.uid));
-
-    console.log(user.delete());
-  }
-
   const changeChar = (index) => {
     setSideBar(false);
     setCurrentIndex(index);
@@ -141,7 +130,7 @@ export const Home = (props) => {
       <div className='primary-container'>
         <header className='top-bar'>
           <nav className='nav-options'>
-            <button type="button" className="button" onClick={() => (setSideBar(!sideBar))}><FaBars /></button>
+            <button type="button" className="button" onClick={() => (setSideBar(!sideBar))}><IoAccessibilitySharp /></button>
             
             {(currentIndex != null) && <div>
               <button type="button" className="button" onClick={() => (window.location.href = "/#/about")}>About</button>
@@ -172,10 +161,7 @@ export const Home = (props) => {
         </nav>
         
         <div className='main-view'>
-          {!(currentIndex != null) && <div>
-            <div>Select a character from the sidebar</div>
-            <button type="button" className="button" onClick={delAccount}>Delete Account</button>
-          </div>}
+          {!(currentIndex != null) && <HomeContent characters={characters}/>}
 
           {(currentIndex != null) && <div>
           <Routes>
