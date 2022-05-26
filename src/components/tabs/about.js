@@ -40,7 +40,7 @@ export const About = (props) => {
         <hr className="solid"/>
         <div className="about-title">Appearance:</div><div className="about-content">{about.appearance}</div>
 
-        {!modal && <button type="button" className="save button" onClick={() => (setModal(true))}><FaEdit/></button>}
+        {!modal && <button type="button" className="edit button" onClick={() => (setModal(true))}><FaEdit/></button>}
       </div>
   );
 }

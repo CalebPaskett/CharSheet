@@ -54,12 +54,13 @@
   cursor: pointer;
 }
 
-.save {
+.edit {
   position: fixed;
   right: 8px;
   bottom: 16px;
   z-index: 1;
-  padding:8px;
+  padding: 10px;
+  border-radius: 50%;
 }
 
 .main-view{
@@ -193,7 +194,7 @@
 
 .modal {
   max-height: 80%;
-  min-width: 400px;
+  min-width: 256px;
 	width: 80%;
 	background-color: white;
 	display: flex;
@@ -230,7 +231,9 @@
 }
 
 .about-content {
-  text-indent: 50px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word; 
+  hyphens: auto;
 }
 
 hr.solid {

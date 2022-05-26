@@ -7,7 +7,7 @@ import { IoMdSettings } from 'react-icons/io'
 import { IoAccessibilitySharp } from 'react-icons/io5'
 import { ImHome } from "react-icons/im";
 
-import { HomeContent } from './home_content';
+import { Home } from '../tabs/home';
 import { About } from '../tabs/about';
 import { Characteristics } from '../tabs/characteristics'
 import { Complications } from '../tabs/complications';
@@ -18,7 +18,7 @@ import { Skills } from '../tabs/skills';
 import { Talents } from '../tabs/talents';
 import { Settings } from '../tabs/settings';
 
-export const Home = (props) => {
+export const Main = (props) => {
   const [loading, setLoading] = useState(true);
   const [characters, setCharacters] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -42,7 +42,6 @@ export const Home = (props) => {
 			});
       setCharacters([...charactersRef.current])
       
-      document.title = ("Hero Sheet");
       setLoading(false);
 		});
 		
@@ -54,7 +53,7 @@ export const Home = (props) => {
     const db = getFirestore();
 
     var about = {
-      name: "New Character",
+      name: "Unamed Character",
       nicknames: "",
       background: "",
       personality: "",
@@ -115,7 +114,7 @@ export const Home = (props) => {
 
   const returnHome = () => {
     setSideBar(false);
-    window.location.href = "/#/";
+    window.location.href = "/#/home";
     setCurrentIndex(null);
   }
 
@@ -162,7 +161,7 @@ export const Home = (props) => {
         </nav>
         
         <div className='main-view'>
-          {!(currentIndex != null) && <HomeContent characters={characters}/>}
+          {!(currentIndex != null) && <Home characters={characters}/>}
 
           {(currentIndex != null) && <div>
           <Routes>

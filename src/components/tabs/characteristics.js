@@ -63,7 +63,7 @@ export const Characteristics = (props) => {
 
         <div>LEAPING: {characteristics.leaping}</div>
 
-        {!modal && <button type="button" className="save button" onClick={() => (setModal(true))}><FaEdit/></button>}
+        {!modal && <button type="button" className="edit button" onClick={() => (setModal(true))}><FaEdit/></button>}
       </div>
   );
 }

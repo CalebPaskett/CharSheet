@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Home } from './home/home';
+import { Main } from './main/main';
 import { SignIn } from './sign_in/sign_in';
 
 export const Router = () => {
@@ -29,7 +29,7 @@ export const Router = () => {
     <Routes>
       <Route
         path="/*"
-        element={user ? <Home user={user}/> : <Navigate replace to="signin" />}
+        element={user ? <Main user={user}/> : <Navigate replace to="signin" />}
       />
       <Route path="signin" element={<SignIn />} />
     </Routes>

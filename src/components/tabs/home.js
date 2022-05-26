@@ -1,7 +1,12 @@
 import { getAuth, } from 'firebase/auth';
 import { getFirestore, deleteDoc, doc } from "firebase/firestore";
+import { useEffect } from 'react';
 
-export const HomeContent = (props) => {
+export const Home = (props) => {
+  useEffect(() => {
+    document.title = ("Hero Sheet");
+  }, []);
+
   const delAccount = async () => {
     const db = getFirestore();
     const user = getAuth().currentUser;
@@ -23,9 +28,8 @@ export const HomeContent = (props) => {
       <ul>
         <li>Fix account deletion</li>
         <li>Make home pretty</li>
-        <li>Organize sidebar buttons</li>
-        <li>Update modal toggle</li>
-        <li>Research hdc exports</li>
+        <li>Organize sidebar button</li>
+        <li>Research hdc exports more</li>
         <li>Add remaining fields to powers, etc</li>
         <li>Add modal function to powers, etc</li>
         <li>Dice roller</li>
@@ -40,6 +44,7 @@ export const HomeContent = (props) => {
         <li>Make about/characteristics pretty</li>
         <li>Add character/power etc reording</li>
         <li>Troubleshoot dev overload</li>
+        <li>???</li>
       </ul>
 
       <button type="button" className="button" onClick={delAccount}>Delete Account</button>
