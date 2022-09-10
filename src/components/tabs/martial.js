@@ -8,7 +8,7 @@ export const Martial = (props) => {
   const [martials, setMartials] = useState([]);
 
   useEffect(() => {
-    document.title = (props.character.about.name + " / Martial - Hero Sheet");
+    document.title = (props.character.basic_info.info.name + " / Martial - Hero Sheet");
 
     setMartials(props.character.martials);
 

@@ -3,20 +3,25 @@ import { doc, setDoc, getFirestore } from "firebase/firestore";
 
 export const AboutModal = (props) => {
   const [tempAbout, setTempAbout] = useState(null);
+  const [tempBack, setTempBack] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTempAbout(props.about);
+    setTempBack(props.back);
     setLoading(false);
   }, [props.about]);
 
   const saveChanges = async () => {
+    setLoading(true);
+    
     const db = getFirestore();
     await setDoc(doc(db, ("users/"+props.uid+"/characters"), props.charId), {
-			about: tempAbout,
+			basic_info: tempAbout,
+      background: tempBack
     }, {merge: true})
 
-    document.title = (tempAbout.name + " / About - Hero Sheet");
+    document.title = (tempAbout.info.name + " / About - Hero Sheet");
     props.closeModal();
   }
 
@@ -33,28 +38,28 @@ export const AboutModal = (props) => {
             </header>
 
             <div>Name:</div>
-            <input type="text" value={tempAbout.name} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, name: e.target.value}))}/>
+            <input type="text" value={tempAbout.info.name} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, info: ({...oldAbout.info, name: e.target.value})}))}/>
 
             <div>Other Names:</div>
-            <input type="text" value={tempAbout.nicknames} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, nicknames: e.target.value}))}/>
+            <input type="text" value={tempAbout.info.alternates} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, info: ({...oldAbout.info, alternates: e.target.value})}))}/>
 
             <div>Background:</div>
-            <textarea rows="4" value={tempAbout.background} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, background: e.target.value}))}/>
+            <textarea rows="4" value={tempBack.history} onChange={(e) => setTempBack(oldBack => ({...oldBack, history: e.target.value}))}/>
 
             <div>Personality:</div>
-            <textarea rows="4" value={tempAbout.personality} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, personality: e.target.value}))}/>
+            <textarea rows="4" value={tempBack.personality} onChange={(e) => setTempBack(oldBack => ({...oldBack, personality: e.target.value}))}/>
 
             <div>Quote:</div>
-            <textarea rows="4" value={tempAbout.quote} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, quote: e.target.value}))}/>
+            <textarea rows="4" value={tempBack.quote} onChange={(e) => setTempBack(oldBack => ({...oldBack, quote: e.target.value}))}/>
 
             <div>Tactics:</div>
-            <textarea rows="4" value={tempAbout.tactics} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, tactics: e.target.value}))}/>
+            <textarea rows="4" value={tempBack.tactics} onChange={(e) => setTempBack(oldBack => ({...oldBack, tactics: e.target.value}))}/>
 
             <div>Useage:</div>
-            <textarea rows="4" value={tempAbout.useage} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, useage: e.target.value}))}/>
+            <textarea rows="4" value={tempBack.useage} onChange={(e) => setTempBack(oldBack => ({...oldBack, useage: e.target.value}))}/>
 
             <div>Appearance:</div>
-            <textarea rows="4" value={tempAbout.appearance} onChange={(e) => setTempAbout(oldAbout => ({...oldAbout, appearance: e.target.value}))}/>
+            <textarea rows="4" value={tempBack.appearance} onChange={(e) => setTempBack(oldBack => ({...oldBack, appearance: e.target.value}))}/>
 
             <div>
               <button type="cancel" className="button" onClick={() => (props.closeModal())}>Cancel</button>

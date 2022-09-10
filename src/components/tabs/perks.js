@@ -8,7 +8,7 @@ export const Perks = (props) => {
   const [perks, setPerks] = useState([]);
 
   useEffect(() => {
-    document.title = (props.character.about.name + " / Perks - Hero Sheet");
+    document.title = (props.character.basic_info.info.name + " / Perks - Hero Sheet");
 
     setPerks(props.character.perks);
 

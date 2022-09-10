@@ -8,7 +8,7 @@ export const Powers = (props) => {
   const [powers, setPowers] = useState([]);
 
   useEffect(() => {
-    document.title = (props.character.about.name + " / Powers - Hero Sheet");
+    document.title = (props.character.basic_info.info.name + " / Powers - Hero Sheet");
 
     setPowers(props.character.powers);
 

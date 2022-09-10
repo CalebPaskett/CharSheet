@@ -9,7 +9,7 @@ export const ComplicationCard = (props) => {
 
   useEffect(() => {
     setName(props.complication.name);
-    setDesc(props.complication.description);
+    setDesc(props.complication.notes);
   }, [props]);
 
   const saveChanges = async () => {
@@ -17,7 +17,7 @@ export const ComplicationCard = (props) => {
 
     var changed = {
 			name: name,
-      description: desc,
+      notes: desc,
     }
 
     const db = getFirestore();

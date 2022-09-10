@@ -8,7 +8,7 @@ export const Skills = (props) => {
   const [skills, setSkills] = useState([]);
 
   useEffect(() => {
-    document.title = (props.character.about.name + " / Skills - Hero Sheet");
+    document.title = (props.character.basic_info.info.name + " / Skills - Hero Sheet");
 
     setSkills(props.character.skills);
 

@@ -52,42 +52,353 @@ export const Main = (props) => {
     setLoading(true);
     const db = getFirestore();
 
-    var about = {
-      name: "Unamed Character",
-      nicknames: "",
-      background: "",
+    var basic_info = {
+      exp: {
+        total: 0,
+        total_active: 0,			
+        base: 0,
+        earned: 0,
+        spent: 0,
+        unspent: 0, 
+        complications: 0,
+        comp_max: 0,
+        characteristics: 0,
+        skills: 0,
+        perks: 0,
+        talents: 0,
+        martial: 0,
+        powers: 0 
+      },
+      info: {
+        name: "Unnamed Character",
+        alternates: "",
+        campaign: "",
+        genre: "",
+        player: "",
+        gm: ""
+      }
+    };
+    var background = {
+      height: "",
+      weight: "",
+      eye_color: "",
+      hair_color: "",
+      history: "",
       personality: "",
       quote: "",
-      tactics: "",
+      tactics: '',
       useage: "",
-      appearance: "",
+      appearance: ""
+    };
+    var characteristics = {
+      str: {
+        value: 10,
+        total: 10,
+        base: 10,
+        cost: 0,
+        roll: "11-",
+        notes: "HTH Damage 2d6  END [2]",
+        dice: "2d6",
+        lift: "100.0kg",
+        end_cost: "2",
+        extra: {
+          primary: 10,
+          primary_roll: 11,
+          secondary: 10,
+          secondary_roll: 11,
+          increase: 0
+        }
+      },
+      dex: {
+        value: 10,
+        total: 10,
+        base: 10,
+        cost: 0,
+        roll: "11-",
+        notes: "",
+        initiative: 10,
+        extra: {
+          primary: 10,
+          primary_roll: 11,
+          secondary: 10,
+          secondary_roll: 11,
+          increase: 0
+        }
+      },
+      con: {
+        value: 10,
+        total: 10,
+        base: 10,
+        cost: 0,
+        roll: "11-",
+        notes: "",
+        extra: {
+          primary: 10,
+          primary_roll: 11,
+          secondary: 10,
+          secondary_roll: 11,
+          increase: 0
+        }
+      },
+      int: {
+        value: 10,
+        total: 10,
+        base: 10,
+        cost: 0,
+        roll: "11-",
+        per: "11-",
+        notes: "PER Roll 11-",
+        extra: {
+          primary: 10,
+          primary_roll: 11,
+          secondary: 10,
+          secondary_roll: 11,
+          increase: 0
+        }
+      },
+      ego: {
+        value: 10,
+        total: 10,
+        base: 10,
+        cost: 0,
+        roll: "11-",
+        notes: "",
+        extra: {
+          primary: 10,
+          primary_roll: 11,
+          secondary: 10,
+          secondary_roll: 11,
+          increase: 0
+        }
+      },
+      pre: {
+        value: 10,
+        total: 10,
+        base: 10,
+        cost: 0,
+        roll: "11-",
+        notes: "PRE Attack: 2d6",
+        dice: "2d6",
+        attack: "2d6",
+        extra: {
+          primary: 10,
+          primary_roll: 11,
+          secondary: 10,
+          secondary_roll: 11,
+          increase: 0
+        }
+      },
+      ocv: {
+        value: 3,
+        total: 3,
+        base: 3,
+        cost: 0,
+        notes: "",
+        extra: {
+          primary: 3,
+          primary_roll: 10,
+          secondary: 3,
+          secondary_roll: 10,
+          increase: 0
+        }
+      },
+      dcv: {
+        value: 3,
+        total: 3,
+        base: 3,
+        cost: 0,
+        notes: "",
+        from_size: "",
+        extra: {
+          primary: 3,
+          primary_roll: 10,
+          secondary: 3,
+          secondary_roll: 10,
+          increase: 0
+        }
+      },
+      omcv: {
+        value: 3,
+        total: 3,
+        base: 3,
+        cost: 0,
+        notes: "",
+        extra: {
+          primary: 3,
+          primary_roll: 10,
+          secondary: 3,
+          secondary_roll: 10,
+          increase: 0
+        }
+      },
+      dmcv: {
+        value: 3,
+        total: 3,
+        base: 3,
+        cost: 0,
+        notes: "",
+        extra: {
+          primary: 3,
+          primary_roll: 10,
+          secondary: 3,
+          secondary_roll: 10,
+          increase: 0
+        }
+      },
+      spd: {
+        value: 2,
+        total: 2,
+        base: 2.0,
+        cost: 0,
+        notes: "Phases:  6, 12",
+        extra: {
+          primary: 2,
+          primary_roll: 9,
+          secondary: 2,
+          secondary_roll: 9,
+          increase: 0
+        }
+      },
+      pd: {
+        value: 2,
+        total: 2,
+        base: 2,
+        cost: 0,
+        nonresistant: 2,
+        resistant: 0,
+        notes: "2 PD (0 rPD)",
+        extra: {
+          primary: 2,
+          primary_roll: 9,
+          secondary: 2,
+          secondary_roll: 9,
+          increase: 0
+        }
+      },
+      ed: {
+        value: 2,
+        total: 2,
+        base: 2,
+        cost: 0,
+        nonresistant: 2,
+        resistant: 0,
+        notes: "2 ED (0 rED)",
+        extra: {
+          primary: 2,
+          primary_roll: 9,
+          secondary: 2,
+          secondary_roll: 9,
+          increase: 0
+        }
+      },
+      rec: {
+        value: 4,
+        total: 4,
+        base: 4,
+        cost: 0,
+        notes: "",
+        extra: {
+          primary: 4,
+          primary_roll: 10,
+          secondary: 4,
+          secondary_roll: 10,
+          increase: 0
+        }
+      },
+      end: {
+        value: 20,
+        total: 20,
+        base: 20,
+        cost: 0,
+        notes: "",
+        extra: {
+          primary: 20,
+          primary_roll: 13,
+          secondary: 20,
+          secondary_roll: 13,
+          increase: 0
+        }
+      },
+      body: {
+        value: 10,
+        total: 10,
+        base: 10,
+        cost: 0,
+        notes: "",
+        extra: {
+          primary: 10,
+          primary_roll: 11,
+          secondary: 10,
+          secondary_roll: 11,
+          increase: 0
+        }
+      },
+      stun: {
+        value: 20,
+        total: 20,
+        base: 20,
+        cost: 0,
+        notes: "",
+        extra: {
+          primary: 20,
+          primary_roll: 13,
+          secondary: 20,
+          secondary_roll: 13,
+          increase: 0
+        }
+      },
+      movement: {
+        running: {
+          value: 12,
+          combat: "12m",
+          noncombat: "24m",
+          base: 12,
+          cost: 0,
+          notes: "END [1]",
+          extra: {
+            primary: 12,
+            primary_noncombat: "24m",
+            secondary: 12,
+            secondary_noncombat: "24m",
+            increase: 0
+          }
+        },
+        swimming: {
+          value: 4,
+          combat: "4m",
+          noncombat: "8m",
+          base: 4,
+          cost: 0,
+          notes: "END [1]",
+          extra: {
+            primary: 4,
+            primary_noncombat: "8m",
+            secondary: 4,
+            secondary_noncombat: "8m",
+            increase: 0
+          }
+        },
+        leaping: {
+          value: 4,
+          combat: "4m",
+          noncombat: "8m",
+          base: 4,
+          cost: 0,
+          notes: "4m forward, 2m upward",
+          extra: {
+            primary: "4m/2m",
+            primary_noncombat: "8m",
+            secondary: "4m/2m",
+            secondary_noncombat: "8m",
+            increase: 0
+          }
+        }
+      }
     };
 
-    var characteristics = {
-      str: "10",
-      dex: "10",
-      con: "10",
-      int: "10",
-      ego: "10",
-      pre: "10",
-      ocv: "3",
-      dcv: "3",
-      omcv: "3",
-      dmcv: "3",
-      spd: "2",
-      pd: "2",
-      ed: "2",
-      rec: "4",
-      end: "20",
-      body: "10",
-      stun: "20",
-      running: "12",
-      swimming: "4",
-      leaping: "4",
-    };
-    
 		await addDoc(collection(db, ("users/"+props.user.uid+"/characters")), {
-      about: about,
+      basic_info: basic_info,
+      background: background,
       characteristics: characteristics,
       skills: [],
       perks: [],
@@ -154,7 +465,7 @@ export const Main = (props) => {
         <nav className={sideBar ? 'drawer' : 'drawer drawer-close'}> 
           {characters.map((character, index) => (
             <div key={character.id}>
-              <button type="button" className="character" onClick={() => (changeChar(index))}>{character.about.name}</button>
+              <button type="button" className="character" onClick={() => (changeChar(index))}>{character.basic_info.info.name}</button>
             </div>
           ))}
           <button type="button" className="button" onClick={genEmptyCharacter}>New Character</button>

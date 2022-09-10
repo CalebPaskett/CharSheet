@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, getFirestore, updateDoc, arrayUnion} from "firebase/firestore";
+import { doc, getFirestore, updateDoc, arrayUnion } from "firebase/firestore";
 import { ComplicationCard } from '../cards/complication_card';
 
 export const Complications = (props) => {
@@ -8,7 +8,7 @@ export const Complications = (props) => {
   const [complications, setComplications] = useState([]);
 
   useEffect(() => {
-    document.title = (props.character.about.name + " / Complications - Hero Sheet");
+    document.title = (props.character.basic_info.info.name + " / Complications - Hero Sheet");
 
     setComplications(props.character.complications);
 
@@ -20,8 +20,23 @@ export const Complications = (props) => {
     const db = getFirestore();
 
     var data = {
-      name: "",
-      description: "",
+      name :"",
+      levels: 0,
+      cost: {
+          "total": 0,
+          "base": 0,
+          "active": 0
+      },
+      details: {
+          display: "",
+          text: "",
+          option: "",
+          input: "",
+          sfx: ""
+      },
+      "modifiers":[],
+      "adders":[],
+      notes: ""
     };
 
     await updateDoc(doc(db,  ("users/"+props.user.uid+"/characters"), props.character.id), {
