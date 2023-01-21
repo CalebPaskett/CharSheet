@@ -22,12 +22,16 @@ export const CharacteristicsModal = (props) => {
     props.closeModal();
   }
 
-  const setChar = (char, subChar, value) => {
-    setTempCharacteristics(oldCharacteristics => ({...oldCharacteristics, [char]: ({...oldCharacteristics[char], [subChar]: value})}));
-  }
-
-  const setSubChar = (char, subChar, subSubChar, value) => {
-    setTempCharacteristics(oldCharacteristics => ({...oldCharacteristics, [char]: ({...oldCharacteristics[char], [subChar]: ({...oldCharacteristics[subChar], [subSubChar]: value})})}));
+  const setChar = (path, value) => {
+    if (path.length === 2) {
+      setTempCharacteristics(oldCharacteristics => ({...oldCharacteristics, [path[0]]: ({...oldCharacteristics[path[0]], [path[1]]: value})}));
+    }
+    else if (path.length === 3) {
+      setTempCharacteristics(oldCharacteristics => ({...oldCharacteristics, [path[0]]: ({...oldCharacteristics[path[0]], [path[1]]: ({...oldCharacteristics[path[0]][path[1]], [path[2]]: value})})}));
+    }
+    else if (path.length === 4) {
+      setTempCharacteristics(oldCharacteristics => ({...oldCharacteristics, [path[0]]: ({...oldCharacteristics[path[0]], [path[1]]: ({...oldCharacteristics[path[0]][path[1]], [path[2]]: ({...oldCharacteristics[path[0]][path[1]][path[2]], [path[3]]: value})})})}));
+    }
   }
 
   if (loading) {
@@ -42,27 +46,25 @@ export const CharacteristicsModal = (props) => {
             <h3 className='modal-header'>Editing Characteristics</h3>
           </header>
 
-            <CharacteristicEditCard name="STR" char="str" values={tempCharacteristics.str} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="DEX" char="dex" values={tempCharacteristics.dex} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="INT" char="int" values={tempCharacteristics.int} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="EGO" char="ego" values={tempCharacteristics.ego} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="OCV" char="ocv" values={tempCharacteristics.ocv} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="DCV" char="dcv" values={tempCharacteristics.dcv} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="OMCV" char="omcv" values={tempCharacteristics.omcv} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="DMCV" char="dmcv" values={tempCharacteristics.dmcv} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="SPD" char="spd" values={tempCharacteristics.spd} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="PD" char="pd" values={tempCharacteristics.pd} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="ED" char="ed" values={tempCharacteristics.ed} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="REC" char="rec" values={tempCharacteristics.rec} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="END" char="end" values={tempCharacteristics.end} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="BODY" char="body" values={tempCharacteristics.body} setChar={setChar} setSubChar={setSubChar}/>
-            <CharacteristicEditCard name="STUN" char="stun" values={tempCharacteristics.stun} setChar={setChar} setSubChar={setSubChar}/>
+            <CharacteristicEditCard name="STR"  char={["str"]}  values={tempCharacteristics.str}  setChar={setChar}/>
+            <CharacteristicEditCard name="DEX"  char={["dex"]}  values={tempCharacteristics.dex}  setChar={setChar}/>
+            <CharacteristicEditCard name="INT"  char={["int"]}  values={tempCharacteristics.int}  setChar={setChar}/>
+            <CharacteristicEditCard name="EGO"  char={["ego"]}  values={tempCharacteristics.ego}  setChar={setChar}/>
+            <CharacteristicEditCard name="OCV"  char={["ocv"]}  values={tempCharacteristics.ocv}  setChar={setChar}/>
+            <CharacteristicEditCard name="DCV"  char={["dcv"]}  values={tempCharacteristics.dcv}  setChar={setChar}/>
+            <CharacteristicEditCard name="OMCV" char={["omcv"]} values={tempCharacteristics.omcv} setChar={setChar}/>
+            <CharacteristicEditCard name="DMCV" char={["dmcv"]} values={tempCharacteristics.dmcv} setChar={setChar}/>
+            <CharacteristicEditCard name="SPD"  char={["spd"]}  values={tempCharacteristics.spd}  setChar={setChar}/>
+            <CharacteristicEditCard name="PD"   char={["pd"]}   values={tempCharacteristics.pd}   setChar={setChar}/>
+            <CharacteristicEditCard name="ED"   char={["ed"]}   values={tempCharacteristics.ed}   setChar={setChar}/>
+            <CharacteristicEditCard name="REC"  char={["rec"]}  values={tempCharacteristics.rec}  setChar={setChar}/>
+            <CharacteristicEditCard name="END"  char={["end"]}  values={tempCharacteristics.end}  setChar={setChar}/>
+            <CharacteristicEditCard name="BODY" char={["body"]} values={tempCharacteristics.body} setChar={setChar}/>
+            <CharacteristicEditCard name="STUN" char={["stun"]} values={tempCharacteristics.stun} setChar={setChar}/>
 
-            <div>RUNNING: <input type="number" value={tempCharacteristics.movement.running.value} onChange={(e) => setSubChar("movement", "running", "value", e.target.value)}/></div>
-
-            <div>SWIMMING: <input type="number" value={tempCharacteristics.movement.swimming.value} onChange={(e) => setSubChar("movement", "swimming", "value", e.target.value)}/></div>
-
-            <div>LEAPING: <input type="number" value={tempCharacteristics.movement.leaping.value} onChange={(e) => setSubChar("movement", "leaping", "value", e.target.value)}/></div>
+            <CharacteristicEditCard name="RUNNING" char={["movement", "running"]} values={tempCharacteristics.movement.running} setChar={setChar}/>
+            <CharacteristicEditCard name="SWIMMING" char={["movement", "swimming"]} values={tempCharacteristics.movement.swimming} setChar={setChar}/>
+            <CharacteristicEditCard name="LEAPING" char={["movement", "leaping"]} values={tempCharacteristics.movement.leaping} setChar={setChar}/>
 
             <div>
               <button type="cancel" className="button" onClick={() => (props.closeModal())}>Cancel</button>

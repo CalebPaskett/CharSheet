@@ -1,53 +1,76 @@
-import { useEffect, useState } from 'react';
-import { doc, getDoc, setDoc, getFirestore, updateDoc, arrayRemove } from "firebase/firestore";
+import { useState } from 'react';
+import { MinorCard } from './minor_card';
+import { SkillModal } from '../modals/skill_modal';
+import { FaEdit } from "react-icons/fa";
 
 export const SkillCard = (props) => {
-  const [saveStat, setSaveStat] = useState("Save");
+  const [modal, setModal] = useState(false);
 
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-
-  useEffect(() => {
-    setName(props.skill.name);
-    setDesc(props.skill.description);
-  }, [props]);
-
-  const saveChanges = async () => {
-    setSaveStat("Saving...");
-
-    var changed = {
-			name: name,
-      description: desc,
-    }
-
-    const db = getFirestore();
-
-    let character = await getDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId));
-    var newArray = character.data().skills;
-    newArray[props.index] = changed;
-
-    await setDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
-			skills: newArray,
-    }, {merge: true})
-
-    setSaveStat("Saved!");
-    setTimeout(function() {setSaveStat("Save");}, 500);
-  }
-
-  const deleteSkill = async () => {
-    const db = getFirestore();
-
-    await updateDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
-      skills: arrayRemove(props.skill),
-    });
-  }
+  //{(typeof props.skill.roll !== 'undefined' && props.skill.roll != "") && (": "+ props.skill.roll)}
 
   return (
-    <div className='card'>
-      <input type="text" value={name} onChange={(e) =>setName(e.target.value)}/><br/>
-      <textarea value={desc} onChange={(e) => setDesc(e.target.value)}/>
-      <button type="button" className='card-save button' onClick={saveChanges}>{saveStat}</button>
-      <button type="button" className='card-delete' onClick={deleteSkill}>X</button>
+    <div>
+      {modal && <SkillModal index={props.index} skill={props.skill} closeModal={setModal} userId={props.userId} characterId={props.characterId}/>}
+
+      {!props.skill.separator &&
+        <details>
+          <summary>{props.skill.name}</summary>
+          {(typeof props.skill.levels !== 'undefined') && <div>Levels: {props.skill.levels}</div>}
+          {(typeof props.skill.roll !== 'undefined' && props.skill.roll !== "") && <div>Roll: {props.skill.roll}</div>}
+          <div>Notes: {props.skill.notes}</div>
+
+          <details>
+            <summary>Cost: {props.skill.cost.total}</summary>
+            <div>Total: {props.skill.cost.total}</div>
+            <div>Base: {props.skill.cost.base}</div>
+            <div>Active: {props.skill.cost.active}</div>
+            {props.skill.list && <div>List: {props.skill.cost.list}</div>}
+            {props.skill.list && <div> Active: {props.skill.cost.list_active}</div>}
+          </details>
+
+          <details>
+            <summary>Details</summary>
+            <div>Alias: {props.skill.details.alias}</div>
+            <div>Display: {props.skill.details.display}</div>
+            <div>Text: {props.skill.details.text}</div>
+            <div>Option: {props.skill.details.option}</div>
+            <div>Input: {props.skill.details.input}</div>
+            <div>Sfx: {props.skill.details.sfx}</div>
+          </details>
+
+          {props.skill.list && <details>
+            <summary>Sub-skills</summary>
+            {props.skill.contents.map((skill, index) => (
+                <div key={index}>
+                  <SkillCard index={index} skill={skill} userId={props.userId} characterId={props.characterId}/>
+                </div>
+              ))}
+          </details>}
+
+          {(props.skill.modifiers.length > 0) && <details>
+            <summary>Modifiers</summary>
+            {props.skill.modifiers.map((modifier, index) => (
+                <div key={index}>
+                  <MinorCard index={index} values={modifier}/>
+                </div>
+              ))}
+          </details>}
+
+          {(props.skill.adders.length > 0) && <details>
+            <summary>Adders</summary>
+            {props.skill.adders.map((modifier, index) => (
+                <div key={index}>
+                  <MinorCard index={index} values={modifier}/>
+                </div>
+              ))}
+          </details>}
+
+          {props.skill.enhancer && <div>Enhancer</div>}
+          {props.skill.everyman && <div>Everyman</div>}
+
+          <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>
+        </details>
+      }
     </div>
   );
 }

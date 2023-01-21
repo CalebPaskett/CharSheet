@@ -48,6 +48,29 @@ export const Settings = (props) => {
 
     var skills = [];
     for (var skill of json.skills) {
+      // Handle special types
+      if (skill.enhancer == null) {
+        skill.enhancer = false;
+      }
+      if (skill.everyman == null) {
+        skill.everyman = false;
+      }
+
+      //Handle separators
+      if (skill.separator == null) {
+        skill.separator = false; 
+      }
+      else {
+        var sep = {
+          notes: skill.notes,
+          separator: true
+        }
+        skills.push(sep);
+        continue;
+      }
+
+      // Handle lists
+      // Identify heads of lists
       if (skill.list != null) {
         if (listHead != null) {
           listHead = null;
@@ -56,17 +79,24 @@ export const Settings = (props) => {
         listHead.contents = [];
         skills.push(listHead);
       }
+      else {
+        skill.list = false;
+      }
 
-      if (listHead != null && skill.list == null) {
+      //Add to lists
+      if (listHead !== null && skill.list === false) {
+        //End finished lists
         if (skill.list_pos == null) {
           listHead = null;   
           skills.push(skill);
         }
+        //Add to unfinished lists
         else {
           listHead.contents.push(skill);
         } 
       }
-      else if (skill.list == null) {   
+      //Just add to skill is not in a list
+      else if (skill.list === false) {   
           skills.push(skill);
       }
     };
@@ -233,7 +263,8 @@ export const Settings = (props) => {
       <div>
         <button type="button" className='button' onClick={deleteCharacter}>DELETE CHARACTER</button>
 
-        <div>Import from HDC (unfinished)</div>
+        <div>Import from Hero Designer (unfinished)</div>
+        <div>Use <a href="/JsonExport.hde" download>this hde file</a> to export a Hero Designer character as a .json file, and then upload it below</div>
         <input type="file" id="json" accept=".json"></input>
         <button type="button" className='button' onClick={importChar}>IMPORT</button>
       </div>

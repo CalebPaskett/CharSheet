@@ -21,11 +21,11 @@ export const CharacteristicCard = (props) => {
       <details>
         <summary>Primary/Secondary</summary>
         <div>Primary: {props.values.extra.primary}</div>
-        {(typeof props.values.primary_roll !== 'undefined') && <div>Primary Roll: {props.values.primary_roll}</div>}
-        {(typeof props.values.primary_noncombat !== 'undefined') && <div>Primary Noncombat: {props.values.primary_noncombat}</div>}
+        {(typeof props.values.extra.primary_roll !== 'undefined') && <div>Primary Roll: {props.values.extra.primary_roll}</div>}
+        {(typeof props.values.extra.primary_noncombat !== 'undefined') && <div>Primary Noncombat: {props.values.extra.primary_noncombat}</div>}
         <div>Secondary: {props.values.extra.secondary}</div>
-        {(typeof props.values.secondary_roll !== 'undefined') && <div>Secondary Roll: {props.values.secondary_roll}</div>}
-        {(typeof props.values.secondary_noncombat !== 'undefined') && <div>Secondary Noncombat: {props.values.secondary_noncombat}</div>}
+        {(typeof props.values.extra.secondary_roll !== 'undefined') && <div>Secondary Roll: {props.values.extra.secondary_roll}</div>}
+        {(typeof props.values.extra.secondary_noncombat !== 'undefined') && <div>Secondary Noncombat: {props.values.extra.secondary_noncombat}</div>}
         <div>Increase: {props.values.extra.increase}</div>
       </details>
     </details>

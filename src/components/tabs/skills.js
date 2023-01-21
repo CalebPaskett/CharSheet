@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {doc, getFirestore, updateDoc, arrayUnion} from "firebase/firestore";
+import { doc, getFirestore, updateDoc, arrayUnion } from "firebase/firestore";
 import { SkillCard } from '../cards/skill_card';
 
 export const Skills = (props) => {
@@ -20,11 +20,34 @@ export const Skills = (props) => {
     const db = getFirestore();
 
     var data = {
-      name: "",
-      description: "",
-    };
+			"name": "",
+      "roll": "",
+      "levels": 0,
+			"cost": {
+				"total": 0,
+				"base": 0,
+				"active": 0
+			},
+			"details": {
+				"alias": "",
+				"display": "",
+				"text": "",
+				"option": "",
+				"input": "",
+				"sfx": "Default"
+			},
+			"modifiers": [
+			],
+			"adders": [
+			],
+			"enhancer": false,
+      "everyman": false,
+			"list": false,
+      "separator": false,
+			"notes": ""
+		};
 
-    await updateDoc(doc(db,  ("users/"+props.user.uid+"/characters"), props.character.id), {
+    await updateDoc(doc(db, ("users/"+props.user.uid+"/characters"), props.character.id), {
       skills: arrayUnion(data),
     });
   }
