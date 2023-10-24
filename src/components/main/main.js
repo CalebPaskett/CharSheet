@@ -10,12 +10,8 @@ import { ImHome } from "react-icons/im";
 import { Home } from '../tabs/home';
 import { About } from '../tabs/about';
 import { Characteristics } from '../tabs/characteristics'
-import { Complications } from '../tabs/complications';
 import { Martial } from '../tabs/martial';
-import { Perks } from '../tabs/perks';
 import { Powers } from '../tabs/powers';
-import { Skills } from '../tabs/skills';
-import { Talents } from '../tabs/talents';
 import { Settings } from '../tabs/settings';
 import { Attributes } from '../tabs/attributes'
 
