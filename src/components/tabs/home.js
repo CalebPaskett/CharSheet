@@ -44,7 +44,10 @@ export const Home = (props) => {
         <li>Make about/characteristics pretty</li>
         <li>Add character/power etc reording</li>
         <li>Troubleshoot dev overload</li>
-        <li>???</li>
+        <li>Need to have toggle for everyman/enhancer, etc</li>
+        <li>Skill, perk, talent, complication can all be use single set of 'attribute' elements</li>
+        <li>Power and equipments can both probably use 'power' elemtns</li>
+        <li>Martial can be martial element</li>
       </ul>
 
       <button type="button" className="button" onClick={delAccount}>Delete Account</button>
