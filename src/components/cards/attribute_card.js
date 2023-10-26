@@ -1,10 +1,27 @@
 import { useState } from 'react';
 import { MinorCard } from './minor_card';
 import { AttributeModal } from '../modals/attribute_modal';
-import { FaEdit } from "react-icons/fa";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { doc, getFirestore, getDoc, setDoc} from "firebase/firestore";
+import { FaEdit } from 'react-icons/fa';
 
 export const AttributeCard = (props) => {
   const [modal, setModal] = useState(false);
+
+  const changeOrder = async (direction) => {
+    const db = getFirestore();
+
+    let character = await getDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId));
+    var newAttributes = character.data()[props.attribute_type];
+
+    var swap_index = (direction === "up") ? props.index-1 : props.index+1;
+
+    [newAttributes[props.index], newAttributes[swap_index]] = [newAttributes[swap_index], newAttributes[props.index]];
+
+    await setDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
+			[props.attribute_type]: newAttributes,
+    }, {merge: true})
+  }
 
   return (
     <div>
@@ -12,7 +29,14 @@ export const AttributeCard = (props) => {
 
       {!props.attribute.separator &&
         <details>
-          <summary>{props.attribute.name}</summary>
+          <summary>
+            {props.attribute.name}      
+            <div className='sort-container'>
+              <button type="button" className="sort-button" onClick={() => (changeOrder("up"))}><IoIosArrowUp/></button>
+              <br/>
+              <button type="button" className="sort-button" onClick={() => (changeOrder("down"))}><IoIosArrowDown/></button>
+            </div>
+          </summary>
           {(typeof props.attribute.levels !== 'undefined') && <div>Levels: {props.attribute.levels}</div>}
           {(typeof props.attribute.roll !== 'undefined' && props.attribute.roll !== "") && <div>Roll: {props.attribute.roll}</div>}
           <div>Notes: {props.attribute.notes}</div>
@@ -37,7 +61,7 @@ export const AttributeCard = (props) => {
           </details>
 
           {props.attribute.list && <details>
-            <summary>Sub-attributes</summary>
+            <summary>Sub-{props.attribute_type.charAt(0).toUpperCase()}</summary>
             {props.attribute.contents.map((attribute, index) => (
                 <div key={index}>
                   <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId}/>
@@ -63,8 +87,8 @@ export const AttributeCard = (props) => {
               ))}
           </details>}
 
-          {(props.attribute_type == "skills" || props.attribute_type == "perks") && props.attribute.enhancer && <div>Enhancer</div>}
-          {(props.attribute_type == "skills") && props.attribute.everyman && <div>Everyman</div>}
+          {(props.attribute_type === "skills" || props.attribute_type === "perks") && props.attribute.enhancer && <div>Enhancer</div>}
+          {(props.attribute_type === "skills") && props.attribute.everyman && <div>Everyman</div>}
 
           <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>
         </details>

@@ -54,6 +54,25 @@
   cursor: pointer;
 }
 
+.sort-container {
+  margin: -0.5em;
+  height: 40px;
+  float: right;
+}
+
+.sort-button {
+  border-radius: 0px;
+  margin: 0px;
+  padding: 0px;
+  padding-right: 8px;
+  padding-left: 8px;
+  height: 50%;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
 .edit {
   position: fixed;
   right: 8px;

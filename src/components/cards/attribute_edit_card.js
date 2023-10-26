@@ -27,7 +27,7 @@ export const AttributeEditCard = (props) => {
     </details>
 
     {props.attribute.list && <details>
-      <summary>Sub-attributes</summary>
+      <summary>Sub-{props.attribute_type.charAt(0).toUpperCase()}</summary>
       {props.attribute.contents.map((attribute, index) => (
           <div key={index}>
             <details>
@@ -56,8 +56,8 @@ export const AttributeEditCard = (props) => {
         ))}
     </details>}
 
-    {(props.attribute_type == "skills" || props.attribute_type == "perks") && props.attribute.enhancer && <div>Enhancer</div>}
-    {(props.attribute_type == "skills") && props.attribute.everyman && <div>Everyman</div>}
+    {(props.attribute_type === "skills" || props.attribute_type === "perks") && <><input type="checkbox" id="is_enhancer" checked={props.attribute.enhancer} onChange={(e) => props.setAttribute(["enhancer"], e.target.checked)}/><label htmlFor="is_enhancer">Enhancer</label><br/></>}
+    {(props.attribute_type === "skills") && <><input type="checkbox" id="is_everyman" checked={props.attribute.everyman} onChange={(e) => props.setAttribute(["everyman"], e.target.checked)}/><label htmlFor="is_everyman">Everyman</label></>}
   </div>
   )
 }
