@@ -63,7 +63,7 @@ export const AttributeModal = (props) => {
           <h3 className='modal-header'>Editing {props.attribute.name ? props.attribute.name : "New " + props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1, -1)}</h3>
         </header>
 
-        <AttributeEditCard attribute={tempAttribute} attribute_type={props.attribute_type} setAttribute={setAttribute}/>
+        <AttributeEditCard attribute={tempAttribute} attribute_type={props.attribute_type} setAttribute={setAttribute} is_sub={false}/>
 
         <div>
           <button type="cancel" className="button" onClick={() => (props.closeModal())}>Cancel</button>

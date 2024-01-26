@@ -27,18 +27,18 @@ export const AttributeEditCard = (props) => {
     </details>
 
     {props.attribute.list && <details>
-      <summary>Sub-{props.attribute_type.charAt(0).toUpperCase()}</summary>
+      <summary>Sub-{props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1)}</summary>
       {props.attribute.contents.map((attribute, index) => (
           <div key={index}>
             <details>
               <summary>{attribute.name}</summary>
-              <AttributeEditCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId}/>
+              <AttributeEditCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId} is_sub={true}/>
             </details>
           </div>
         ))}
     </details>}
 
-    {(props.attribute.modifiers.length > 0) && <details>
+    {<details>
       <summary>Modifiers</summary>
       {props.attribute.modifiers.map((modifier, index) => (
           <div key={index}>
@@ -47,7 +47,7 @@ export const AttributeEditCard = (props) => {
         ))}
     </details>}
 
-    {(props.attribute.adders.length > 0) && <details>
+    {<details>
       <summary>Adders</summary>
       {props.attribute.adders.map((modifier, index) => (
           <div key={index}>
@@ -57,7 +57,8 @@ export const AttributeEditCard = (props) => {
     </details>}
 
     {(props.attribute_type === "skills" || props.attribute_type === "perks") && <><input type="checkbox" id="is_enhancer" checked={props.attribute.enhancer} onChange={(e) => props.setAttribute(["enhancer"], e.target.checked)}/><label htmlFor="is_enhancer">Enhancer</label><br/></>}
-    {(props.attribute_type === "skills") && <><input type="checkbox" id="is_everyman" checked={props.attribute.everyman} onChange={(e) => props.setAttribute(["everyman"], e.target.checked)}/><label htmlFor="is_everyman">Everyman</label></>}
+    {(props.attribute_type === "skills") && <><input type="checkbox" id="is_everyman" checked={props.attribute.everyman} onChange={(e) => props.setAttribute(["everyman"], e.target.checked)}/><label htmlFor="is_everyman">Everyman</label><br/></>}
+    {(!props.is_sub) && <><input type="checkbox" id="is_list" checked={props.attribute.list} onChange={(e) => props.setAttribute(["list"], e.target.checked)}/><label htmlFor="is_list">List</label></>}
   </div>
   )
 }

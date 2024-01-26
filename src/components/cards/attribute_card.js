@@ -61,30 +61,30 @@ export const AttributeCard = (props) => {
           </details>
 
           {props.attribute.list && <details>
-            <summary>Sub-{props.attribute_type.charAt(0).toUpperCase()}</summary>
+            <summary>Sub-{props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1)}</summary>
             {props.attribute.contents.map((attribute, index) => (
-                <div key={index}>
-                  <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId}/>
-                </div>
-              ))}
+              <div key={index}>
+                <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId}/>
+              </div>
+            ))}
           </details>}
 
           {(props.attribute.modifiers.length > 0) && <details>
             <summary>Modifiers</summary>
             {props.attribute.modifiers.map((modifier, index) => (
-                <div key={index}>
-                  <MinorCard index={index} values={modifier}/>
-                </div>
-              ))}
+              <div key={index}>
+                <MinorCard index={index} values={modifier}/>
+              </div>
+            ))}
           </details>}
 
           {(props.attribute.adders.length > 0) && <details>
             <summary>Adders</summary>
             {props.attribute.adders.map((modifier, index) => (
-                <div key={index}>
-                  <MinorCard index={index} values={modifier}/>
-                </div>
-              ))}
+              <div key={index}>
+                <MinorCard index={index} values={modifier}/>
+              </div>
+            ))}
           </details>}
 
           {(props.attribute_type === "skills" || props.attribute_type === "perks") && props.attribute.enhancer && <div>Enhancer</div>}

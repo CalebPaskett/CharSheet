@@ -1,9 +1,13 @@
-# HERO SYSTEM CHARACTER SHEET APP
+# ABOUT HERO SYSTEM CHARACTER SHEET APP
 
 Built with React and Firebase, currently in development. Running at hero-sheet-c6e68.web.app
 
+This project is an online character sheet for the tabletop RPG 'HERO System 6th Edition' - herogames.com/store/category/2-hero-system-6th-edition/. I'm building it in my spare time because I haven't been happy with other digital character sheets available for the system. I haven't worked on it recently, as I have not been playing the game it was made for.
 
-# NPM Commands
+It is currently incomplete, but still allows you to record most of your characters information, just without much polish, and some advanced features (like multi-powers) can't be created yet. It also supports exported character sheets from the Hero Designer application, using my custom .json export format file available for download from the website (it is also located in public > JsonExport.hde)
+
+
+# Development Commands to Remember
 
 ### `npm start`
 
