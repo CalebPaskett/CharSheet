@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { doc, getFirestore, updateDoc, arrayUnion } from "firebase/firestore";
 import { AttributeCard } from '../cards/attribute_card';
 
@@ -7,8 +7,10 @@ export const Attributes = (props) => {
 
   const [attributes, setAttributes] = useState([]);
 
-  useEffect(() => {
-    document.title = (props.character.basic_info.info.name + " / Attributes - Hero Sheet");
+  useMemo(() => {
+    setLoading(true);
+
+    document.title = (props.character.basic_info.info.name + " / " + props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1) + " - Hero Sheet");
 
     setAttributes(props.character[props.attribute_type]);
 
@@ -54,6 +56,13 @@ export const Attributes = (props) => {
         if (props.attribute_type == "skills") {
           data["everyman"] = false
         }
+      }
+
+      if (props.attribute_type == "powers") {
+        data["range"] = ""
+        data["damage"] = ""
+        data["end"] = ""
+        data["levels"] = ""
       }
     }
 

@@ -478,7 +478,7 @@ export const Main = (props) => {
             <Route path="complications" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="complications"/>} />
             <Route path="martial" element={<Martial user={props.user} character={characters[currentIndex]}/>} />
             <Route path="perks" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="perks"/>} />
-            <Route path="powers" element={<Powers user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="powers" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="powers"/>} />
             <Route path="skills" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="skills"/>} />
             <Route path="talents" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="talents"/>} />
             <Route path="settings" element={<Settings user={props.user} character={characters[currentIndex]}/>} />

@@ -39,6 +39,10 @@ export const AttributeCard = (props) => {
           </summary>
           {(typeof props.attribute.levels !== 'undefined') && <div>Levels: {props.attribute.levels}</div>}
           {(typeof props.attribute.roll !== 'undefined' && props.attribute.roll !== "") && <div>Roll: {props.attribute.roll}</div>}
+          {(typeof props.attribute.damage !== 'undefined' && props.attribute.damage !== "") && <div>Damage: {props.attribute.damage}</div>}
+          {(typeof props.attribute.end !== 'undefined' && props.attribute.end !== "") && <div>END: {props.attribute.end}</div>}
+          {(typeof props.attribute.levels !== 'undefined' && props.attribute.levels !== "") && <div>Levels: {props.attribute.levels}</div>}
+          {(typeof props.attribute.range !== 'undefined' && props.attribute.range !== "") && <div>Range: {props.attribute.range}</div>}
           <div>Notes: {props.attribute.notes}</div>
 
           <details>
@@ -60,9 +64,18 @@ export const AttributeCard = (props) => {
             <div>Sfx: {props.attribute.details.sfx}</div>
           </details>
 
-          {props.attribute.list && <details>
+          {(props.attribute.list || (typeof props.attribute.types !== 'undefined' && typeof props.attribute.types.list !== 'undefined')) && <details>
             <summary>Sub-{props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1)}</summary>
             {props.attribute.contents.map((attribute, index) => (
+              <div key={index}>
+                <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId}/>
+              </div>
+            ))}
+          </details>}
+
+          {(typeof props.attribute.components !== 'undefined' ) && <details>
+            <summary>Component Powers</summary>
+            {props.attribute.components.map((attribute, index) => (
               <div key={index}>
                 <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId}/>
               </div>
@@ -89,10 +102,22 @@ export const AttributeCard = (props) => {
 
           {(props.attribute_type === "skills" || props.attribute_type === "perks") && props.attribute.enhancer && <div>Enhancer</div>}
           {(props.attribute_type === "skills") && props.attribute.everyman && <div>Everyman</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.adjustment !== 'undefined') && <div>Adjustment Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.attack !== 'undefined') && <div>Attack Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.body_affecting !== 'undefined') && <div>Body Affecting Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.defense !== 'undefined') && <div>Defense Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.mental !== 'undefined') && <div>Mental Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.movement !== 'undefined') && <div>Movement Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.sense_affecting !== 'undefined') && <div>Sense Affecting Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.sensory !== 'undefined') && <div>Sensory Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.special !== 'undefined') && <div>Special Power</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.multipower !== 'undefined') && <div>Multipower</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.ec !== 'undefined') && <div>EC</div>}
+          {(props.attribute_type === "powers") && (typeof props.attribute.types.vpp !== 'undefined') && <div>Variable Power Pool</div>}
 
           <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>
         </details>
       }
     </div>
-  );
+  );  
 }
