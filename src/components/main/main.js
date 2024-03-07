@@ -3,17 +3,16 @@ import { useEffect, useState, useRef } from 'react';
 import { addDoc, collection, onSnapshot, getFirestore } from "firebase/firestore";
 import { Route, Routes, Navigate } from 'react-router-dom';
 
-import { IoMdSettings } from 'react-icons/io'
-import { IoAccessibilitySharp } from 'react-icons/io5'
+import { IoMdSettings } from 'react-icons/io';
+import { IoAccessibilitySharp } from 'react-icons/io5';
 import { ImHome } from "react-icons/im";
 
 import { Home } from '../tabs/home';
 import { About } from '../tabs/about';
-import { Characteristics } from '../tabs/characteristics'
+import { Characteristics } from '../tabs/characteristics';
 import { Martial } from '../tabs/martial';
-import { Powers } from '../tabs/powers';
 import { Settings } from '../tabs/settings';
-import { Attributes } from '../tabs/attributes'
+import { Attributes } from '../tabs/attributes';
 
 export const Main = (props) => {
   const [loading, setLoading] = useState(true);

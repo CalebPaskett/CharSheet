@@ -27,7 +27,7 @@ export const AttributeCard = (props) => {
     <div>
       {modal && <AttributeModal index={props.index} attribute={props.attribute} attribute_type={props.attribute_type} closeModal={setModal} userId={props.userId} characterId={props.characterId}/>}
 
-      {!props.attribute.separator &&
+      {!props.attribute.types.includes("separator") &&
         <details>
           <summary>
             {props.attribute.name}      
@@ -41,7 +41,6 @@ export const AttributeCard = (props) => {
           {(typeof props.attribute.roll !== 'undefined' && props.attribute.roll !== "") && <div>Roll: {props.attribute.roll}</div>}
           {(typeof props.attribute.damage !== 'undefined' && props.attribute.damage !== "") && <div>Damage: {props.attribute.damage}</div>}
           {(typeof props.attribute.end !== 'undefined' && props.attribute.end !== "") && <div>END: {props.attribute.end}</div>}
-          {(typeof props.attribute.levels !== 'undefined' && props.attribute.levels !== "") && <div>Levels: {props.attribute.levels}</div>}
           {(typeof props.attribute.range !== 'undefined' && props.attribute.range !== "") && <div>Range: {props.attribute.range}</div>}
           <div>Notes: {props.attribute.notes}</div>
 
@@ -50,8 +49,8 @@ export const AttributeCard = (props) => {
             <div>Total: {props.attribute.cost.total}</div>
             <div>Base: {props.attribute.cost.base}</div>
             <div>Active: {props.attribute.cost.active}</div>
-            {props.attribute.list && <div>List: {props.attribute.cost.list}</div>}
-            {props.attribute.list && <div> Active: {props.attribute.cost.list_active}</div>}
+            {props.attribute.types.includes("list") && <div>List: {props.attribute.cost.list}</div>}
+            {props.attribute.types.includes("list") && <div> Active: {props.attribute.cost.list_active}</div>}
           </details>
 
           <details>
@@ -64,7 +63,7 @@ export const AttributeCard = (props) => {
             <div>Sfx: {props.attribute.details.sfx}</div>
           </details>
 
-          {(props.attribute.list || (typeof props.attribute.types !== 'undefined' && typeof props.attribute.types.list !== 'undefined')) && <details>
+          {props.attribute.types.includes("list") && <details>
             <summary>Sub-{props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1)}</summary>
             {props.attribute.contents.map((attribute, index) => (
               <div key={index}>
@@ -100,23 +99,33 @@ export const AttributeCard = (props) => {
             ))}
           </details>}
 
-          {(props.attribute_type === "skills" || props.attribute_type === "perks") && props.attribute.enhancer && <div>Enhancer</div>}
-          {(props.attribute_type === "skills") && props.attribute.everyman && <div>Everyman</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.adjustment !== 'undefined') && <div>Adjustment Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.attack !== 'undefined') && <div>Attack Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.body_affecting !== 'undefined') && <div>Body Affecting Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.defense !== 'undefined') && <div>Defense Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.mental !== 'undefined') && <div>Mental Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.movement !== 'undefined') && <div>Movement Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.sense_affecting !== 'undefined') && <div>Sense Affecting Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.sensory !== 'undefined') && <div>Sensory Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.special !== 'undefined') && <div>Special Power</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.multipower !== 'undefined') && <div>Multipower</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.ec !== 'undefined') && <div>EC</div>}
-          {(props.attribute_type === "powers") && (typeof props.attribute.types.vpp !== 'undefined') && <div>Variable Power Pool</div>}
+          {props.attribute.types.includes("enhancer") &&        <div>Enhancer</div>}
+          {props.attribute.types.includes("everyman") &&        <div>Everyman</div>}
+          {props.attribute.types.includes("adjustment") &&      <div>Adjustment Power</div>}
+          {props.attribute.types.includes("attack") &&          <div>Attack Power</div>}
+          {props.attribute.types.includes("body_affecting") &&  <div>Body Affecting Power</div>}
+          {props.attribute.types.includes("defense") &&         <div>Defense Power</div>}
+          {props.attribute.types.includes("mental") &&          <div>Mental Power</div>}
+          {props.attribute.types.includes("movement") &&        <div>Movement Power</div>}
+          {props.attribute.types.includes("sense_affecting") && <div>Sense Affecting Power</div>}
+          {props.attribute.types.includes("sensory") &&         <div>Sensory Power</div>}
+          {props.attribute.types.includes("special") &&         <div>Special Power</div>}
+          {props.attribute.types.includes("multipower") &&      <div>Multipower</div>}
+          {props.attribute.types.includes("ec") &&              <div>EC</div>}
+          {props.attribute.types.includes("vpp") &&             <div>Variable Power Pool</div>}
 
           <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>
         </details>
+      }
+
+      {props.attribute.types.includes("separator") && 
+        <div>
+          <div className='sort-container'>
+            <button type="button" className="sort-button" onClick={() => (changeOrder("up"))}><IoIosArrowUp/></button>
+            <br/>
+            <button type="button" className="sort-button" onClick={() => (changeOrder("down"))}><IoIosArrowDown/></button>
+          </div>
+        </div>
       }
     </div>
   );  

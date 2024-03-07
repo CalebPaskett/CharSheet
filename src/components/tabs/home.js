@@ -30,22 +30,20 @@ export const Home = (props) => {
         <li>Make home pretty</li>
         <li>Organize sidebar button</li>
         <li>Research hdc exports more</li>
-        <li>Add remaining fields to powers, etc</li>
-        <li>Add modal function to powers, etc</li>
         <li>Dice roller</li>
         <li>Assorted tools</li>
         <li>Action page</li>
-        <li>Remaining about fields</li>
-        <li>Other characteristics</li>
         <li>Password changing/recovery</li>
-        <li>Card lists</li>
         <li>Retain info after refresh</li>
         <li>Character photos</li>
         <li>Make about/characteristics pretty</li>
         <li>Add character/power etc reording</li>
         <li>Troubleshoot dev overload</li>
-        <li>Power and equipments can both probably use 'power' elemtns</li>
-        <li>Martial can be martial element</li>
+        <li>Martial can be unique martial element</li>
+        <li>Need equipments</li>
+        <li>Need to have parser set missing fields to false so I can skip undefined checks</li>
+        <li>Edit Minor Cards</li>
+        <li>Finish improving parser, need to add defaults, better separator handling</li>
       </ul>
 
       <button type="button" className="button" onClick={delAccount}>Delete Account</button>

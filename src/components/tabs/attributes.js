@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { doc, getFirestore, updateDoc, arrayUnion } from "firebase/firestore";
 import { AttributeCard } from '../cards/attribute_card';
 
@@ -6,13 +6,15 @@ export const Attributes = (props) => {
   const [loading, setLoading] = useState(true);
 
   const [attributes, setAttributes] = useState([]);
+  const [attributeType, setAttributeType] = useState([]);
 
-  useMemo(() => {
+  useEffect(() => {
     setLoading(true);
 
     document.title = (props.character.basic_info.info.name + " / " + props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1) + " - Hero Sheet");
 
     setAttributes(props.character[props.attribute_type]);
+    setAttributeType(props.attribute_type)
 
 		setLoading(false);
   }, [props.character, props.attribute_type]);
@@ -41,33 +43,24 @@ export const Attributes = (props) => {
 			],
 			"adders": [
 			],
-			"list": false,
-      "separator": false,
+      "types": [
+      ],
 			"notes": ""
 		};
 
     // Special cases for different attributes
-    if (props.attribute_type == "skills" || props.attribute_type == "perks" || props.attribute_type == "talents") {
+    if (attributeType === "skills" || attributeType === "perks" || attributeType === "talents") {
       data["roll"] = ""
-
-      if (props.attribute_type == "skills" || props.attribute_type == "perks") {
-        data["enhancer"] = false
-
-        if (props.attribute_type == "skills") {
-          data["everyman"] = false
-        }
-      }
-
-      if (props.attribute_type == "powers") {
-        data["range"] = ""
-        data["damage"] = ""
-        data["end"] = ""
-        data["levels"] = ""
-      }
+    }
+    else if (attributeType === "powers") {
+      data["range"] = ""
+      data["damage"] = ""
+      data["end"] = ""
+      data["levels"] = ""
     }
 
     await updateDoc(doc(db, ("users/"+props.user.uid+"/characters"), props.character.id), {
-      [props.attribute_type]: arrayUnion(data),
+      [attributeType]: arrayUnion(data),
     });
   }
 
@@ -79,11 +72,11 @@ export const Attributes = (props) => {
       <div>
         {attributes && attributes.map((attribute, index) => (
             <div key={index}>
-              <AttributeCard index={index} attribute={attribute} attribute_type={props.attribute_type} userId={props.user.uid} characterId={props.character.id}/>
+              <AttributeCard index={index} attribute={attribute} attribute_type={attributeType} userId={props.user.uid} characterId={props.character.id}/>
             </div>
           ))}
 
-        <button type="button" onClick={createAttribute}>Add {props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1, -1)}</button>
+        <button type="button" onClick={createAttribute}>Add {attributeType.charAt(0).toUpperCase() + attributeType.slice(1, -1)}</button>
       </div>
   );
 }

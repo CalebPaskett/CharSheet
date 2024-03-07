@@ -51,6 +51,20 @@ export const AttributeModal = (props) => {
     }
   }
 
+  const toggleType = (type) => {
+    var index = tempAttribute.types.indexOf(type);
+    var new_types = [...tempAttribute.types]
+
+    if (index === -1) {
+      new_types.push(type)
+    }
+    else {
+      new_types.splice(index, 1)
+    }
+
+    setTempAttribute(oldAttribute => ({...oldAttribute, "types": new_types}));
+  }
+
   if (loading) {
     return <div></div>;
   }
@@ -63,7 +77,7 @@ export const AttributeModal = (props) => {
           <h3 className='modal-header'>Editing {props.attribute.name ? props.attribute.name : "New " + props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1, -1)}</h3>
         </header>
 
-        <AttributeEditCard attribute={tempAttribute} attribute_type={props.attribute_type} setAttribute={setAttribute} is_sub={false}/>
+        <AttributeEditCard attribute={tempAttribute} attribute_type={props.attribute_type} setAttribute={setAttribute} toggleType={toggleType} is_sub={false}/>
 
         <div>
           <button type="cancel" className="button" onClick={() => (props.closeModal())}>Cancel</button>
