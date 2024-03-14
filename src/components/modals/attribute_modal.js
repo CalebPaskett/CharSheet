@@ -37,32 +37,47 @@ export const AttributeModal = (props) => {
   }
 
   const setAttribute = (path, value) => {
+    setTempAttribute(oldAttribute => (modifyAttribute(path, value, oldAttribute)))
+  }
+
+  const modifyAttribute = (path, value, attributePiece) => {
     if (path.length === 1) {
-      setTempAttribute(oldAttribute => ({...oldAttribute, [path[0]]: value}));
+      if (typeof path[0] === "number") {
+        var attributePieceCopy = [...attributePiece]
+        attributePieceCopy[path[0]] = value
+        return attributePieceCopy
+      }
+      else {
+        return {...attributePiece, [path[0]]: value}
+      }
     }
-    else if (path.length === 2) {
-      setTempAttribute(oldAttribute => ({...oldAttribute, [path[0]]: ({...oldAttribute[path[0]], [path[1]]: value})}));
-    }
-    else if (path.length === 3) {
-      setTempAttribute(oldAttribute => ({...oldAttribute, [path[0]]: ({...oldAttribute[path[0]], [path[1]]: ({...oldAttribute[path[0]][path[1]], [path[2]]: value})})}));
-    }
-    else if (path.length === 4) {
-      setTempAttribute(oldAttribute => ({...oldAttribute, [path[0]]: ({...oldAttribute[path[0]], [path[1]]: ({...oldAttribute[path[0]][path[1]], [path[2]]: ({...oldAttribute[path[0]][path[1]][path[2]], [path[3]]: value})})})}));
+    else if (path.length > 1) {
+      if (typeof path[0] === "number") {
+        var attributePieceCopy2 = [...attributePiece]
+        attributePieceCopy2[path[0]] = modifyAttribute(path.slice(1), value, attributePieceCopy2[path[0]])
+        return attributePieceCopy2
+      }
+      else if (path[0] === 'types' && value === 'toggle') {
+        return {...attributePiece, 'types': getToggledTypes(path[1], attributePiece['types'])}
+      }
+      else {
+        return {...attributePiece, [path[0]]: modifyAttribute(path.slice(1), value, attributePiece[path[0]])}
+      }
     }
   }
 
-  const toggleType = (type) => {
-    var index = tempAttribute.types.indexOf(type);
-    var new_types = [...tempAttribute.types]
+  const getToggledTypes = (newType, currentTypes) => {
+    var index = currentTypes.indexOf(newType);
+    var newTypes = [...currentTypes]
 
     if (index === -1) {
-      new_types.push(type)
+      newTypes.push(newType)
     }
     else {
-      new_types.splice(index, 1)
+      newTypes.splice(index, 1)
     }
 
-    setTempAttribute(oldAttribute => ({...oldAttribute, "types": new_types}));
+    return newTypes
   }
 
   if (loading) {
@@ -77,7 +92,7 @@ export const AttributeModal = (props) => {
           <h3 className='modal-header'>Editing {props.attribute.name ? props.attribute.name : "New " + props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1, -1)}</h3>
         </header>
 
-        <AttributeEditCard attribute={tempAttribute} attribute_type={props.attribute_type} setAttribute={setAttribute} toggleType={toggleType} is_sub={false}/>
+        <AttributeEditCard attribute={tempAttribute} attribute_type={props.attribute_type} setAttribute={setAttribute} parentPath={[]}/>
 
         <div>
           <button type="cancel" className="button" onClick={() => (props.closeModal())}>Cancel</button>

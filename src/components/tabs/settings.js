@@ -49,6 +49,7 @@ export const Settings = (props) => {
     var talents = process_lists(json.talents);
     var martials = process_lists(json.martials);
     var powers = process_lists(json.powers);
+    var equipment = process_lists(json.equipment);
     var complications = process_lists(json.complications);
       
     await setDoc(doc(db, ("users/"+props.user.uid+"/characters"), props.character.id), {
@@ -60,6 +61,7 @@ export const Settings = (props) => {
         talents: talents,
         martials: martials,
         powers: powers,
+        equipment: equipment,
         complications: complications,
     }, {merge: true});
 
@@ -120,5 +122,3 @@ export const Settings = (props) => {
       </div>
   );
 }
-
-// TODO: Parse component powers

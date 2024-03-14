@@ -10,7 +10,6 @@ import { ImHome } from "react-icons/im";
 import { Home } from '../tabs/home';
 import { About } from '../tabs/about';
 import { Characteristics } from '../tabs/characteristics';
-import { Martial } from '../tabs/martial';
 import { Settings } from '../tabs/settings';
 import { Attributes } from '../tabs/attributes';
 
@@ -402,6 +401,7 @@ export const Main = (props) => {
       martials: [],
       powers: [],
       complications: [],
+      equipment: [],
     });
 
     setCurrentIndex(characters.length);
@@ -447,6 +447,7 @@ export const Main = (props) => {
               <button type="button" className="button" onClick={() => (window.location.href = "/#/talents")}>Talents</button>
               <button type="button" className="button" onClick={() => (window.location.href = "/#/martial")}>Martial</button>
               <button type="button" className="button" onClick={() => (window.location.href = "/#/powers")}>Powers</button>
+              <button type="button" className="button" onClick={() => (window.location.href = "/#/equipment")}>Equipment</button>
               <button type="button" className="button" onClick={() => (window.location.href = "/#/complications")}>Complications</button>
             </div>}
 
@@ -475,7 +476,8 @@ export const Main = (props) => {
             <Route path="about" element={<About user={props.user} character={characters[currentIndex]}/>} />
             <Route path="characteristics" element={<Characteristics user={props.user} character={characters[currentIndex]}/>} />
             <Route path="complications" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="complications"/>} />
-            <Route path="martial" element={<Martial user={props.user} character={characters[currentIndex]}/>} />
+            <Route path="equipment" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="equipment"/>} />
+            <Route path="martial" element={<Attributes user={props.user} character={characters[currentIndex]}  attribute_type="martials"/>} />
             <Route path="perks" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="perks"/>} />
             <Route path="powers" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="powers"/>} />
             <Route path="skills" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="skills"/>} />

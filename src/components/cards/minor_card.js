@@ -5,7 +5,6 @@ export const MinorCard = (props) => {
       <div>Levels: {props.values.levels}</div>
       <div>Cost: {props.values.cost}</div>
       <div>Value: {props.values.value}</div>
-      {(typeof props.values.value !== 'undefined') && <div>Value: {props.values.value}</div>}
 
       <details>
         <summary>Details</summary>

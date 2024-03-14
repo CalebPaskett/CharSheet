@@ -39,6 +39,8 @@ export const Attributes = (props) => {
 				"input": "",
 				"sfx": "Default"
 			},
+      "contents": [
+      ],
 			"modifiers": [
 			],
 			"adders": [
@@ -52,11 +54,17 @@ export const Attributes = (props) => {
     if (attributeType === "skills" || attributeType === "perks" || attributeType === "talents") {
       data["roll"] = ""
     }
-    else if (attributeType === "powers") {
+    else if (attributeType === "powers" || attributeType === "equipment") {
       data["range"] = ""
       data["damage"] = ""
       data["end"] = ""
       data["levels"] = ""
+    }
+    else if (attributeType === "martials") {
+      data["phase"] = ""
+      data["ocv"] = ""
+      data["dcv"] = ""
+      data["effect"] = ""
     }
 
     await updateDoc(doc(db, ("users/"+props.user.uid+"/characters"), props.character.id), {
@@ -72,11 +80,11 @@ export const Attributes = (props) => {
       <div>
         {attributes && attributes.map((attribute, index) => (
             <div key={index}>
-              <AttributeCard index={index} attribute={attribute} attribute_type={attributeType} userId={props.user.uid} characterId={props.character.id}/>
+              <AttributeCard index={index} attribute={attribute} attribute_type={attributeType} userId={props.user.uid} characterId={props.character.id} is_sub={false}/>
             </div>
           ))}
 
-        <button type="button" onClick={createAttribute}>Add {attributeType.charAt(0).toUpperCase() + attributeType.slice(1, -1)}</button>
+        <button type="button" onClick={createAttribute}>Add {attributeType.charAt(0).toUpperCase() + ((attributeType.slice(-1) === 's') ? attributeType.slice(1, -1) : attributeType.slice(1))}</button>
       </div>
   );
 }

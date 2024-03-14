@@ -42,6 +42,11 @@ export const AttributeCard = (props) => {
           {(typeof props.attribute.damage !== 'undefined' && props.attribute.damage !== "") && <div>Damage: {props.attribute.damage}</div>}
           {(typeof props.attribute.end !== 'undefined' && props.attribute.end !== "") && <div>END: {props.attribute.end}</div>}
           {(typeof props.attribute.range !== 'undefined' && props.attribute.range !== "") && <div>Range: {props.attribute.range}</div>}
+
+          {(typeof props.attribute.phase !== 'undefined' && props.attribute.phase !== "") && <div>Phases: {props.attribute.phase}</div>}
+          {(typeof props.attribute.ocv !== 'undefined' && props.attribute.ocv !== "") && <div>OCV: {props.attribute.ocv}</div>}
+          {(typeof props.attribute.dcv !== 'undefined' && props.attribute.dcv !== "") && <div>DCV: {props.attribute.dcv}</div>}
+          {(typeof props.attribute.effect !== 'undefined' && props.attribute.effect !== "") && <div>Effect: {props.attribute.effect}</div>}
           <div>Notes: {props.attribute.notes}</div>
 
           <details>
@@ -50,7 +55,7 @@ export const AttributeCard = (props) => {
             <div>Base: {props.attribute.cost.base}</div>
             <div>Active: {props.attribute.cost.active}</div>
             {props.attribute.types.includes("list") && <div>List: {props.attribute.cost.list}</div>}
-            {props.attribute.types.includes("list") && <div> Active: {props.attribute.cost.list_active}</div>}
+            {props.attribute.types.includes("list") && <div>Active: {props.attribute.cost.list_active}</div>}
           </details>
 
           <details>
@@ -67,7 +72,7 @@ export const AttributeCard = (props) => {
             <summary>Sub-{props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1)}</summary>
             {props.attribute.contents.map((attribute, index) => (
               <div key={index}>
-                <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId}/>
+                <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId} is_sub={true}/>
               </div>
             ))}
           </details>}
@@ -76,7 +81,7 @@ export const AttributeCard = (props) => {
             <summary>Component Powers</summary>
             {props.attribute.components.map((attribute, index) => (
               <div key={index}>
-                <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId}/>
+                <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId} is_sub={true}/>
               </div>
             ))}
           </details>}
@@ -114,7 +119,7 @@ export const AttributeCard = (props) => {
           {props.attribute.types.includes("ec") &&              <div>EC</div>}
           {props.attribute.types.includes("vpp") &&             <div>Variable Power Pool</div>}
 
-          <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>
+          {!props.is_sub && <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>}
         </details>
       }
 
