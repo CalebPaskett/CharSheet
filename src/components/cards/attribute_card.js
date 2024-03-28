@@ -12,20 +12,20 @@ export const AttributeCard = (props) => {
     const db = getFirestore();
 
     let character = await getDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId));
-    var newAttributes = character.data()[props.attribute_type];
+    var newAttributes = character.data()[props.attributeType];
 
     var swap_index = (direction === "up") ? props.index-1 : props.index+1;
 
     [newAttributes[props.index], newAttributes[swap_index]] = [newAttributes[swap_index], newAttributes[props.index]];
 
     await setDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
-			[props.attribute_type]: newAttributes,
+			[props.attributeType]: newAttributes,
     }, {merge: true})
   }
 
   return (
     <div>
-      {modal && <AttributeModal index={props.index} attribute={props.attribute} attribute_type={props.attribute_type} closeModal={setModal} userId={props.userId} characterId={props.characterId}/>}
+      {modal && <AttributeModal index={props.index} attribute={props.attribute} attributeType={props.attributeType} closeModal={setModal} userId={props.userId} characterId={props.characterId}/>}
 
       {!props.attribute.types.includes("separator") &&
         <details>
@@ -69,7 +69,7 @@ export const AttributeCard = (props) => {
           </details>
 
           {props.attribute.types.includes("list") && <details>
-            <summary>Sub-{props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1)}</summary>
+            <summary>Sub-{props.attributeType.charAt(0).toUpperCase() + props.attributeType.slice(1)}</summary>
             {props.attribute.contents.map((attribute, index) => (
               <div key={index}>
                 <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId} is_sub={true}/>
@@ -77,7 +77,7 @@ export const AttributeCard = (props) => {
             ))}
           </details>}
 
-          {(typeof props.attribute.components !== 'undefined' ) && <details>
+          {props.attribute.types.includes("compound") && <details>
             <summary>Component Powers</summary>
             {props.attribute.components.map((attribute, index) => (
               <div key={index}>
@@ -118,6 +118,7 @@ export const AttributeCard = (props) => {
           {props.attribute.types.includes("multipower") &&      <div>Multipower</div>}
           {props.attribute.types.includes("ec") &&              <div>EC</div>}
           {props.attribute.types.includes("vpp") &&             <div>Variable Power Pool</div>}
+          {props.attribute.types.includes("compound") &&        <div>Compound Power</div>}
 
           {!props.is_sub && <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>}
         </details>

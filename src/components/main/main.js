@@ -475,13 +475,13 @@ export const Main = (props) => {
           <Routes>
             <Route path="about" element={<About user={props.user} character={characters[currentIndex]}/>} />
             <Route path="characteristics" element={<Characteristics user={props.user} character={characters[currentIndex]}/>} />
-            <Route path="complications" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="complications"/>} />
-            <Route path="equipment" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="equipment"/>} />
-            <Route path="martial" element={<Attributes user={props.user} character={characters[currentIndex]}  attribute_type="martials"/>} />
-            <Route path="perks" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="perks"/>} />
-            <Route path="powers" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="powers"/>} />
-            <Route path="skills" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="skills"/>} />
-            <Route path="talents" element={<Attributes user={props.user} character={characters[currentIndex]} attribute_type="talents"/>} />
+            <Route path="complications" element={<Attributes user={props.user} character={characters[currentIndex]} attributeType="complications"/>} />
+            <Route path="equipment" element={<Attributes user={props.user} character={characters[currentIndex]} attributeType="equipment"/>} />
+            <Route path="martial" element={<Attributes user={props.user} character={characters[currentIndex]}  attributeType="martials"/>} />
+            <Route path="perks" element={<Attributes user={props.user} character={characters[currentIndex]} attributeType="perks"/>} />
+            <Route path="powers" element={<Attributes user={props.user} character={characters[currentIndex]} attributeType="powers"/>} />
+            <Route path="skills" element={<Attributes user={props.user} character={characters[currentIndex]} attributeType="skills"/>} />
+            <Route path="talents" element={<Attributes user={props.user} character={characters[currentIndex]} attributeType="talents"/>} />
             <Route path="settings" element={<Settings user={props.user} character={characters[currentIndex]}/>} />
 
             <Route path="/*" element={<Navigate push to={"about"}/>} />

@@ -29,7 +29,6 @@ export const Home = (props) => {
         <li>Fix account deletion</li>
         <li>Make home pretty</li>
         <li>Organize sidebar button</li>
-        <li>Research hdc exports more</li>
         <li>Dice roller</li>
         <li>Assorted tools</li>
         <li>Action page</li>
@@ -37,13 +36,6 @@ export const Home = (props) => {
         <li>Retain info after refresh</li>
         <li>Character photos</li>
         <li>Make about/characteristics pretty</li>
-        <li>Add character/power etc reording</li>
-        <li>Troubleshoot dev overload</li>
-        <li>Martial can be unique martial element</li>
-        <li>Need equipments</li>
-        <li>Need to have parser set missing fields to false so I can skip undefined checks</li>
-        <li>Edit Minor Cards</li>
-        <li>Finish improving parser, need to add defaults, better separator handling</li>
       </ul>
 
       <button type="button" className="button" onClick={delAccount}>Delete Account</button>

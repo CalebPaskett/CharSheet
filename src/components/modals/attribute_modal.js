@@ -18,11 +18,11 @@ export const AttributeModal = (props) => {
     const db = getFirestore();
 
     let character = await getDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId));
-    var newAttributes = character.data()[props.attribute_type];
+    var newAttributes = character.data()[props.attributeType];
     newAttributes[props.index] = tempAttribute;
 
     await setDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
-			[props.attribute_type]: newAttributes,
+			[props.attributeType]: newAttributes,
     }, {merge: true})
   }
 
@@ -30,38 +30,118 @@ export const AttributeModal = (props) => {
     const db = getFirestore();
 
     await updateDoc(doc(db, ("users/"+props.userId+"/characters"), props.characterId), {
-      [props.attribute_type]: arrayRemove(props.attribute),
+      [props.attributeType]: arrayRemove(props.attribute),
     });
 
     props.closeModal();
   }
 
   const setAttribute = (path, value) => {
-    setTempAttribute(oldAttribute => (modifyAttribute(path, value, oldAttribute)))
+    setTempAttribute(oldAttribute => (modifyAttribute(path, value, oldAttribute, "replace")))
   }
 
-  const modifyAttribute = (path, value, attributePiece) => {
+  const addSubAttribute= (path, type) => {
+    var newSubAttribute
+    if (type === 'minor') {
+      newSubAttribute = {
+        "name": "",
+        "levels": 0,
+        "cost": "",
+        "value": "",
+        "details": {
+          "display": "",
+          "text": "",
+          "option": "",
+          "input": ""
+        }
+      };
+    }
+    else {
+      newSubAttribute = {
+        "name": "",
+        "levels": 0,
+        "cost": {
+          "total": 0,
+          "base": 0,
+          "active": 0
+        },
+        "details": {
+          "alias": "",
+          "display": "",
+          "text": "",
+          "option": "",
+          "input": "",
+          "sfx": "Default"
+        },
+        "contents": [
+        ],
+        "modifiers": [
+        ],
+        "adders": [
+        ],
+        "types": [
+        ],
+        "notes": ""
+      };
+  
+      // Special cases for different attributes
+      if (type === "skills" || type === "perks" || type === "talents") {
+        newSubAttribute["roll"] = ""
+      }
+      else if (type === "powers" || type === "equipment") {
+        newSubAttribute["range"] = ""
+        newSubAttribute["damage"] = ""
+        newSubAttribute["end"] = ""
+        newSubAttribute["levels"] = ""
+      }
+      else if (type === "martials") {
+        newSubAttribute["phase"] = ""
+        newSubAttribute["ocv"] = ""
+        newSubAttribute["dcv"] = ""
+        newSubAttribute["effect"] = ""
+      }
+    }
+
+    setTempAttribute(oldAttribute => (modifyAttribute(path, newSubAttribute, oldAttribute, "insert")))
+  }
+
+  const delSubAttribute= (path) => {
+    setTempAttribute(oldAttribute => (modifyAttribute(path, null, oldAttribute, "delete")))
+  }
+
+  const modifyAttribute = (path, value, attributePiece, operation) => {
+    var attributePieceCopy
     if (path.length === 1) {
       if (typeof path[0] === "number") {
-        var attributePieceCopy = [...attributePiece]
-        attributePieceCopy[path[0]] = value
-        return attributePieceCopy
+        if (operation === "replace") {
+          attributePieceCopy = [...attributePiece]
+          attributePieceCopy[path[0]] = value
+          return attributePieceCopy
+        }
+        else if (operation === "delete") {
+          attributePieceCopy = [...attributePiece]
+          attributePieceCopy.splice(path[0], 1)
+          return attributePieceCopy
+        }
       }
-      else {
+      else if (operation === "replace") {
         return {...attributePiece, [path[0]]: value}
+      }
+      else if (operation === "insert") {
+        return {...attributePiece, [path[0]]: [...attributePiece[path[0]], value]}
       }
     }
     else if (path.length > 1) {
       if (typeof path[0] === "number") {
-        var attributePieceCopy2 = [...attributePiece]
-        attributePieceCopy2[path[0]] = modifyAttribute(path.slice(1), value, attributePieceCopy2[path[0]])
-        return attributePieceCopy2
+        attributePieceCopy = [...attributePiece]
+        attributePieceCopy[path[0]] = modifyAttribute(path.slice(1), value, attributePieceCopy[path[0]], operation)
+        return attributePieceCopy
       }
       else if (path[0] === 'types' && value === 'toggle') {
-        return {...attributePiece, 'types': getToggledTypes(path[1], attributePiece['types'])}
+        return {...attributePiece, 'types': getToggledTypes(path[1], attributePiece['types'], operation)}
       }
       else {
-        return {...attributePiece, [path[0]]: modifyAttribute(path.slice(1), value, attributePiece[path[0]])}
+        return {...attributePiece, [path[0]]: modifyAttribute(path.slice(1), value, attributePiece[path[0]], operation)}
       }
     }
   }
@@ -89,10 +169,10 @@ export const AttributeModal = (props) => {
       <div className="overlay" onClick={() => (props.closeModal())}/>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <header>
-          <h3 className='modal-header'>Editing {props.attribute.name ? props.attribute.name : "New " + props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1, -1)}</h3>
+          <h3 className='modal-header'>Editing {props.attribute.name ? props.attribute.name : "New " + props.attributeType.charAt(0).toUpperCase() + props.attributeType.slice(1, -1)}</h3>
         </header>
 
-        <AttributeEditCard attribute={tempAttribute} attribute_type={props.attribute_type} setAttribute={setAttribute} parentPath={[]}/>
+        <AttributeEditCard attribute={tempAttribute} attributeType={props.attributeType} setAttribute={setAttribute} addSubAttribute={addSubAttribute} delSubAttribute={delSubAttribute} parentPath={[]}/>
 
         <div>
           <button type="cancel" className="button" onClick={() => (props.closeModal())}>Cancel</button>

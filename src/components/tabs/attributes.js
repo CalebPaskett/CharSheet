@@ -11,13 +11,13 @@ export const Attributes = (props) => {
   useEffect(() => {
     setLoading(true);
 
-    document.title = (props.character.basic_info.info.name + " / " + props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1) + " - Hero Sheet");
+    document.title = (props.character.basic_info.info.name + " / " + props.attributeType.charAt(0).toUpperCase() + props.attributeType.slice(1) + " - Hero Sheet");
 
-    setAttributes(props.character[props.attribute_type]);
-    setAttributeType(props.attribute_type)
+    setAttributes(props.character[props.attributeType]);
+    setAttributeType(props.attributeType)
 
 		setLoading(false);
-  }, [props.character, props.attribute_type]);
+  }, [props.character, props.attributeType]);
 
 
   const createAttribute = async () => {
@@ -80,7 +80,7 @@ export const Attributes = (props) => {
       <div>
         {attributes && attributes.map((attribute, index) => (
             <div key={index}>
-              <AttributeCard index={index} attribute={attribute} attribute_type={attributeType} userId={props.user.uid} characterId={props.character.id} is_sub={false}/>
+              <AttributeCard index={index} attribute={attribute} attributeType={attributeType} userId={props.user.uid} characterId={props.character.id} is_sub={false}/>
             </div>
           ))}
 

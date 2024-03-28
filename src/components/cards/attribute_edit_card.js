@@ -37,62 +37,70 @@ export const AttributeEditCard = (props) => {
     </details>
 
     {props.attribute.types.includes("list")  && <details>
-      <summary>Sub-{props.attribute_type.charAt(0).toUpperCase() + props.attribute_type.slice(1)}</summary>
+      <summary>Sub-{props.attributeType.charAt(0).toUpperCase() + props.attributeType.slice(1)}</summary>
       {props.attribute.contents.map((attribute, index) => (
-          <div key={index}>
-            <details>
-              <summary>{attribute.name}</summary>
-              <AttributeEditCard attribute={attribute} attribute_type={props.attribute_type} setAttribute={props.setAttribute} parentPath={[...props.parentPath, "contents", index]}/>
-            </details>
-          </div>
-        ))}
+        <div key={index}>
+          <details>
+            <summary>{attribute.name}</summary>
+            <AttributeEditCard attribute={attribute} attributeType={props.attributeType} setAttribute={props.setAttribute} addSubAttribute={props.addSubAttribute} delSubAttribute={props.delSubAttribute} parentPath={[...props.parentPath, "contents", index]}/>
+          </details>
+        </div>
+      ))}
+      <button type="button" onClick={() => props.addSubAttribute([...props.parentPath, "contents"], props.attributeType)}>Add Sub-{props.attributeType.charAt(0).toUpperCase() + ((props.attributeType.slice(-1) === 's') ? props.attributeType.slice(1, -1) : props.attributeType.slice(1))}</button>
     </details>}
 
-    {(typeof props.attribute.components !== 'undefined' ) && <details>
+    {props.attribute.types.includes("compound") && <details>
       <summary>Component Powers</summary>
       {props.attribute.components.map((attribute, index) => (
         <div key={index}>
           <details>
             <summary>{attribute.name}</summary>
-            <AttributeEditCard attribute={attribute} attribute_type={props.attribute_type} setAttribute={props.setAttribute} parentPath={[...props.parentPath, "components", index]}/>
+            <AttributeEditCard attribute={attribute} attributeType={props.attributeType} setAttribute={props.setAttribute} addSubAttribute={props.addSubAttribute} delSubAttribute={props.delSubAttribute} parentPath={[...props.parentPath, "components", index]}/>
           </details>
         </div>
       ))}
+      <button type="button" onClick={() => props.addSubAttribute([...props.parentPath, "components"], props.attributeType)}>Add Component Power</button>
     </details>}
 
     {<details>
       <summary>Modifiers</summary>
       {props.attribute.modifiers.map((modifier, index) => (
-          <div key={index}>
-            <MinorEditCard index={index} values={modifier} setAttribute={props.setAttribute} parentPath={[...props.parentPath, "modifiers", index]}/>
-          </div>
-        ))}
+        <div key={index}>
+          <MinorEditCard index={index} values={modifier} attributeType={"modifiers"} setAttribute={props.setAttribute} delSubAttribute={props.delSubAttribute} parentPath={[...props.parentPath, "modifiers", index]}/>
+        </div>
+      ))}
+      <button type="button" onClick={() => props.addSubAttribute([...props.parentPath, "modifiers"], "minor")}>Add Modifier</button>
     </details>}
 
     {<details>
       <summary>Adders</summary>
       {props.attribute.adders.map((modifier, index) => (
-          <div key={index}>
-            <MinorEditCard index={index} values={modifier} setAttribute={props.setAttribute} parentPath={[...props.parentPath, "adders", index]}/>
-          </div>
-        ))}
+        <div key={index}>
+          <MinorEditCard index={index} values={modifier} attributeType={"adders"} setAttribute={props.setAttribute} delSubAttribute={props.delSubAttribute} parentPath={[...props.parentPath, "adders", index]}/>
+        </div>
+      ))}
+      <button type="button" onClick={() => props.addSubAttribute([...props.parentPath, "adders"], "minor")}>Add Modifier</button>
     </details>}
 
-    {(props.attribute_type === "skills" || props.attribute_type === "perks") && <><input type="checkbox" id="is_enhancer"        checked={props.attribute.types.includes("enhancer")}        onChange={(e) => props.setAttribute([...props.parentPath, "types", "enhancer"], "toggle")}/>       <label htmlFor="is_enhancer">Enhancer</label><br/></>}
-    {(props.attribute_type === "skills") &&                                     <><input type="checkbox" id="is_everyman"        checked={props.attribute.types.includes("everyman")}        onChange={(e) => props.setAttribute([...props.parentPath, "types", "everyman"], "toggle")}/>       <label htmlFor="is_everyman">Everyman</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_adjustment"      checked={props.attribute.types.includes("adjustment")}      onChange={(e) => props.setAttribute([...props.parentPath, "types", "adjustment"], "toggle")}/>     <label htmlFor="is_adjustment">Adjustment Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_attack"          checked={props.attribute.types.includes("attack")}          onChange={(e) => props.setAttribute([...props.parentPath, "types", "attack"], "toggle")}/>         <label htmlFor="is_attack">Attack Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_body_affecting"  checked={props.attribute.types.includes("body_affecting")}  onChange={(e) => props.setAttribute([...props.parentPath, "types", "body_affecting"], "toggle")}/> <label htmlFor="is_body_affecting">Body Affecting Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_defense"         checked={props.attribute.types.includes("defense")}         onChange={(e) => props.setAttribute([...props.parentPath, "types", "defense"], "toggle")}/>        <label htmlFor="is_defense">Defense Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_mental"          checked={props.attribute.types.includes("mental")}          onChange={(e) => props.setAttribute([...props.parentPath, "types", "mental"], "toggle")}/>         <label htmlFor="is_mental">Mental Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_movement"        checked={props.attribute.types.includes("movement")}        onChange={(e) => props.setAttribute([...props.parentPath, "types", "movement"], "toggle")}/>       <label htmlFor="is_movement">Movement Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_sense_affecting" checked={props.attribute.types.includes("sense_affecting")} onChange={(e) => props.setAttribute([...props.parentPath, "types", "sense_affecting"], "toggle")}/><label htmlFor="is_sense_affecting">Sense Affecting Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_sensory"         checked={props.attribute.types.includes("sensory")}         onChange={(e) => props.setAttribute([...props.parentPath, "types", "sensory"], "toggle")}/>        <label htmlFor="is_sensory">Sensory Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_special"         checked={props.attribute.types.includes("special")}         onChange={(e) => props.setAttribute([...props.parentPath, "types", "special"], "toggle")}/>        <label htmlFor="is_special">Special Power</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_multipower"      checked={props.attribute.types.includes("multipower")}      onChange={(e) => props.setAttribute([...props.parentPath, "types", "multipower"], "toggle")}/>     <label htmlFor="is_multipower">Mulitpower</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_ec"              checked={props.attribute.types.includes("ec")}              onChange={(e) => props.setAttribute([...props.parentPath, "types", "ec"], "toggle")}/>             <label htmlFor="is_ec">EC</label><br/></>}
-    {(props.attribute_type === "powers") &&                                     <><input type="checkbox" id="is_vpp"             checked={props.attribute.types.includes("vpp")}             onChange={(e) => props.setAttribute([...props.parentPath, "types", "vpp"], "toggle")}/>            <label htmlFor="is_vpp">Variable Power Pool</label><br/></>}
-    {(props.parentPath.len === 0) &&                                            <><input type="checkbox" id="is_list"            checked={props.attribute.types.includes("list")}            onChange={(e) => props.setAttribute([...props.parentPath, "types", "list"], "toggle")}/>           <label htmlFor="is_list">List</label><br/></>}  
+    {(props.attributeType === "skills" || props.attributeType === "perks") && <><input type="checkbox" id="is_enhancer"        checked={props.attribute.types.includes("enhancer")}        onChange={(e) => props.setAttribute([...props.parentPath, "types", "enhancer"], "toggle")}/>       <label htmlFor="is_enhancer">Enhancer</label><br/></>}
+    {(props.attributeType === "skills") &&                                     <><input type="checkbox" id="is_everyman"        checked={props.attribute.types.includes("everyman")}        onChange={(e) => props.setAttribute([...props.parentPath, "types", "everyman"], "toggle")}/>       <label htmlFor="is_everyman">Everyman</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_adjustment"      checked={props.attribute.types.includes("adjustment")}      onChange={(e) => props.setAttribute([...props.parentPath, "types", "adjustment"], "toggle")}/>     <label htmlFor="is_adjustment">Adjustment Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_attack"          checked={props.attribute.types.includes("attack")}          onChange={(e) => props.setAttribute([...props.parentPath, "types", "attack"], "toggle")}/>         <label htmlFor="is_attack">Attack Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_body_affecting"  checked={props.attribute.types.includes("body_affecting")}  onChange={(e) => props.setAttribute([...props.parentPath, "types", "body_affecting"], "toggle")}/> <label htmlFor="is_body_affecting">Body Affecting Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_defense"         checked={props.attribute.types.includes("defense")}         onChange={(e) => props.setAttribute([...props.parentPath, "types", "defense"], "toggle")}/>        <label htmlFor="is_defense">Defense Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_mental"          checked={props.attribute.types.includes("mental")}          onChange={(e) => props.setAttribute([...props.parentPath, "types", "mental"], "toggle")}/>         <label htmlFor="is_mental">Mental Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_movement"        checked={props.attribute.types.includes("movement")}        onChange={(e) => props.setAttribute([...props.parentPath, "types", "movement"], "toggle")}/>       <label htmlFor="is_movement">Movement Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_sense_affecting" checked={props.attribute.types.includes("sense_affecting")} onChange={(e) => props.setAttribute([...props.parentPath, "types", "sense_affecting"], "toggle")}/><label htmlFor="is_sense_affecting">Sense Affecting Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_sensory"         checked={props.attribute.types.includes("sensory")}         onChange={(e) => props.setAttribute([...props.parentPath, "types", "sensory"], "toggle")}/>        <label htmlFor="is_sensory">Sensory Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_special"         checked={props.attribute.types.includes("special")}         onChange={(e) => props.setAttribute([...props.parentPath, "types", "special"], "toggle")}/>        <label htmlFor="is_special">Special Power</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_multipower"      checked={props.attribute.types.includes("multipower")}      onChange={(e) => props.setAttribute([...props.parentPath, "types", "multipower"], "toggle")}/>     <label htmlFor="is_multipower">Multipower</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_ec"              checked={props.attribute.types.includes("ec")}              onChange={(e) => props.setAttribute([...props.parentPath, "types", "ec"], "toggle")}/>             <label htmlFor="is_ec">EC</label><br/></>}
+    {(props.attributeType === "powers") &&                                     <><input type="checkbox" id="is_vpp"             checked={props.attribute.types.includes("vpp")}             onChange={(e) => props.setAttribute([...props.parentPath, "types", "vpp"], "toggle")}/>            <label htmlFor="is_vpp">Variable Power Pool</label><br/></>}
+    {(props.attributeType === "powers" && props.parentPath.length <= 2) &&     <><input type="checkbox" id="is_compound"        checked={props.attribute.types.includes("compound")}        onChange={(e) => props.setAttribute([...props.parentPath, "types", "compound"], "toggle")}/>       <label htmlFor="is_compound">Compound Power</label><br/></>}  
+    {(props.parentPath.length === 0) &&                                         <><input type="checkbox" id="is_list"            checked={props.attribute.types.includes("list")}            onChange={(e) => props.setAttribute([...props.parentPath, "types", "list"], "toggle")}/>           <label htmlFor="is_list">List</label><br/></>}
+    
+    {(props.parentPath.length > 0) && <button type="button" onClick={() => props.delSubAttribute([...props.parentPath])}>Delete Sub-{props.attributeType.charAt(0).toUpperCase() + ((props.attributeType.slice(-1) === 's') ? props.attributeType.slice(1, -1) : props.attributeType.slice(1))}</button>
+}
   </div>
   )
 }
