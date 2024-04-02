@@ -10,7 +10,7 @@ export const AboutModal = (props) => {
     setTempAbout(props.about);
     setTempBack(props.back);
     setLoading(false);
-  }, [props.about]);
+  }, [props.about, props.back]);
 
   const saveChanges = async () => {
     setLoading(true);

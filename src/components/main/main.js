@@ -1,7 +1,7 @@
 import { getAuth, signOut } from 'firebase/auth';
 import { useEffect, useState, useRef } from 'react';
 import { addDoc, collection, onSnapshot, getFirestore } from "firebase/firestore";
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 
 import { IoMdSettings } from 'react-icons/io';
 import { IoAccessibilitySharp } from 'react-icons/io5';
@@ -19,6 +19,8 @@ export const Main = (props) => {
   const [currentIndex, setCurrentIndex] = useState(null);
   const [sideBar, setSideBar] = useState(false);
   const charactersRef = useRef([]);
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = ("Loading... - Hero Sheet");
@@ -405,7 +407,7 @@ export const Main = (props) => {
     });
 
     setCurrentIndex(characters.length);
-    window.location.href = "/#/about";
+    navigate("/about");
     setLoading(false);
   }
 
@@ -421,7 +423,7 @@ export const Main = (props) => {
 
   const returnHome = () => {
     setSideBar(false);
-    window.location.href = "/#/home";
+    navigate("/home");
     setCurrentIndex(null);
   }
 
@@ -440,20 +442,20 @@ export const Main = (props) => {
             <button type="button" className="button" onClick={() => (setSideBar(!sideBar))}><IoAccessibilitySharp /></button>
             
             {(currentIndex != null) && <div>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/about")}>About</button>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/characteristics")}>Characteristics</button>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/skills")}>Skills</button>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/perks")}>Perks</button>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/talents")}>Talents</button>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/martial")}>Martial</button>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/powers")}>Powers</button>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/equipment")}>Equipment</button>
-              <button type="button" className="button" onClick={() => (window.location.href = "/#/complications")}>Complications</button>
+              <button type="button" className="button" onClick={() => navigate('/about')}>About</button>
+              <button type="button" className="button" onClick={() => navigate('/characteristics')}>Characteristics</button>
+              <button type="button" className="button" onClick={() => navigate('/skills')}>Skills</button>
+              <button type="button" className="button" onClick={() => navigate('/perks')}>Perks</button>
+              <button type="button" className="button" onClick={() => navigate('/talents')}>Talents</button>
+              <button type="button" className="button" onClick={() => navigate('/martial')}>Martial</button>
+              <button type="button" className="button" onClick={() => navigate('/powers')}>Powers</button>
+              <button type="button" className="button" onClick={() => navigate('/equipment')}>Equipment</button>
+              <button type="button" className="button" onClick={() => navigate('/complications')}>Complications</button>
             </div>}
 
             <div className='filler'/>
              
-            {(currentIndex != null) && <button type="button" className="button" onClick={() => (window.location.href = "/#/settings")}><IoMdSettings/></button>}
+            {(currentIndex != null) && <button type="button" className="button" onClick={() => navigate('/settings')}><IoMdSettings/></button>}
             <button type="button" className="button" onClick={returnHome}><ImHome/></button>
             <button type="button" className="button" onClick={logOut}>Logout</button>
           </nav>
@@ -484,7 +486,7 @@ export const Main = (props) => {
             <Route path="talents" element={<Attributes user={props.user} character={characters[currentIndex]} attributeType="talents"/>} />
             <Route path="settings" element={<Settings user={props.user} character={characters[currentIndex]}/>} />
 
-            <Route path="/*" element={<Navigate push to={"about"}/>} />
+            <Route path="/*" element={<Navigate to={"/about"} replace={true}/>} />
           </Routes>
           </div>}
         </div>
