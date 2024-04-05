@@ -1,9 +1,16 @@
 import { useState } from 'react';
 import { MinorCard } from './minor_card';
 import { AttributeModal } from '../modals/attribute_modal';
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { TypesDisplay } from '../displays/types_display';
+import { SFXDisplay } from '../displays/sfx_display';
 import { doc, getFirestore, getDoc, setDoc} from "firebase/firestore";
+
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FaEdit } from 'react-icons/fa';
+import { SlEnergy } from "react-icons/sl";
+import { IoDiceSharp } from "react-icons/io5";
+import { TbTargetArrow } from "react-icons/tb";
+import { GiAllForOne } from "react-icons/gi";
 
 export const AttributeCard = (props) => {
   const [modal, setModal] = useState(false);
@@ -28,13 +35,24 @@ export const AttributeCard = (props) => {
       {modal && <AttributeModal index={props.index} attribute={props.attribute} attributeType={props.attributeType} closeModal={setModal} userId={props.userId} characterId={props.characterId}/>}
 
       {!props.attribute.types.includes("separator") &&
-        <details>
+        <details open={false}>
           <summary>
-            {props.attribute.name}      
-            <div className='sort-container'>
-              <button type="button" className="sort-button" onClick={() => (changeOrder("up"))}><IoIosArrowUp/></button>
-              <br/>
-              <button type="button" className="sort-button" onClick={() => (changeOrder("down"))}><IoIosArrowDown/></button>
+            <div className='attribute-main'> 
+              <span className='attribute-title-box'>
+                <span className='attribute-title'>{props.attribute.name}</span>
+                {(props.attribute.details.alias !== '' ? props.attribute.details.alias : props.attribute.details.display) != props.attribute.name && <span className='attribute-sub-title'>{props.attribute.details.alias !== '' ? props.attribute.details.alias : props.attribute.details.display}</span>}
+              </span>
+
+              <span className='attribute-damage'><GiAllForOne/>{props.attribute.damage}</span>
+              <span className='attribute-range'><TbTargetArrow/>{props.attribute.range}</span>
+              <TypesDisplay types={props.attribute.types}/>
+              <SFXDisplay sfx={props.attribute.details.sfx}/>
+              <span className='attribute-sfx-box'>{}</span>
+              {props.attribute.roll && <span className='attribute-roll'><IoDiceSharp/>{props.attribute.roll}</span>}
+              {props.attributeType == 'powers' && <span className='attribute-end-box'>
+                <div className='attribute-divider'></div>
+                {props.attribute.end && <span className='attribute-end-sub-box'><SlEnergy/><span className='attribute-end'>{props.attribute.end}</span></span>}
+              </span>}
             </div>
           </summary>
           {(typeof props.attribute.levels !== 'undefined') && <div>Levels: {props.attribute.levels}</div>}
@@ -110,17 +128,24 @@ export const AttributeCard = (props) => {
           {props.attribute.types.includes("attack") &&          <div>Attack Power</div>}
           {props.attribute.types.includes("body_affecting") &&  <div>Body Affecting Power</div>}
           {props.attribute.types.includes("defense") &&         <div>Defense Power</div>}
+          {props.attribute.types.includes("ec") &&              <div>Elemental Control Power</div>}
           {props.attribute.types.includes("mental") &&          <div>Mental Power</div>}
           {props.attribute.types.includes("movement") &&        <div>Movement Power</div>}
           {props.attribute.types.includes("sense_affecting") && <div>Sense Affecting Power</div>}
           {props.attribute.types.includes("sensory") &&         <div>Sensory Power</div>}
           {props.attribute.types.includes("special") &&         <div>Special Power</div>}
           {props.attribute.types.includes("multipower") &&      <div>Multipower</div>}
-          {props.attribute.types.includes("ec") &&              <div>EC</div>}
           {props.attribute.types.includes("vpp") &&             <div>Variable Power Pool</div>}
           {props.attribute.types.includes("compound") &&        <div>Compound Power</div>}
 
           {!props.is_sub && <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>}
+
+          
+          <span className='sort-container'>
+              <button type="button" className="sort-button" onClick={() => (changeOrder("up"))}><IoIosArrowUp/></button>
+              <br/>
+              <button type="button" className="sort-button" onClick={() => (changeOrder("down"))}><IoIosArrowDown/></button>
+            </span>
         </details>
       }
 

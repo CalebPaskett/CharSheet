@@ -75,6 +75,11 @@ export const Settings = (props) => {
     for (var attribute of attributes) {
       // Give all attributes contents so they easily can become lists later
       attribute.contents = [];
+
+      // If it has no name, copy the name from the alias
+      if (attribute.name === "") {
+        attribute.name = attribute.details.alias
+      }
   
       // If an attribute is a list, open a new list with the attibute as the head
       if (attribute.types.includes("list")) {

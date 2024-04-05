@@ -263,6 +263,62 @@ hr.solid {
 details {
   border: 1px solid #aaa;
   border-radius: 4px;
-  padding: .5em;
   margin-bottom: 2px;
 }
+
+summary {
+  cursor: pointer;
+  padding: .35rem;
+}
+
+.attribute-main {
+  display: inline-flex;
+  width: calc(100% - 15px);
+}
+
+.attribute-divider {
+  border-left: 1px solid #aaa;
+  height: calc(100% + 0.7rem);
+}
+
+.attribute-title-box {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  margin-right: 1rem;
+}
+
+.attribute-title {
+  font-size: larger;
+  font-weight: bold;  
+  margin-top: -0.1rem;
+}
+
+.attribute-sub-title {
+  font-size: x-small;
+  font-style: italic;
+  margin-top: -0.1rem;
+}
+
+.attribute-end-box {
+  width: 3rem;
+  padding-left: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.attribute-end-sub-box {
+  width: 100%;
+  padding-left: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.attribute-end {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+}
+
