@@ -261,9 +261,9 @@ hr.solid {
 }
 
 details {
-  border: 1px solid #aaa;
+  border: 2px solid #6e6e6e;;
   border-radius: 4px;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 summary {
@@ -274,11 +274,12 @@ summary {
 .attribute-main {
   display: inline-flex;
   width: calc(100% - 15px);
+  align-items: center;
 }
 
 .attribute-divider {
-  border-left: 1px solid #aaa;
-  height: calc(100% + 0.7rem);
+  border-left: 1px solid #6e6e6e;
+  height: 1.5rem;
 }
 
 .attribute-title-box {
@@ -320,5 +321,51 @@ summary {
   justify-content: center;
   align-items: center;
   margin-left: auto;
+}
+
+.attribute-segment {
+  width: 5rem;
+}
+
+.attribute-sfx-box {
+  width: 16px;
+  padding-left: 0.7rem;
+}
+
+.attribute-types-box {
+  display: flex;
+  flex-direction: row;
+  width: 80px;
+  padding-left: 2rem;
+  justify-content: right;
+}
+
+.attribute-damage-box {
+  width: 15%
+}
+
+.attribute-range-box {
+  width: 7%
+}
+
+.attribute-sub-attributes-details {
+  border: 1px solid #aaaaaa3b;
+  border-radius: 0px;
+  margin-top: 2px;
+  margin-bottom: 0px;
+  margin-right: -6px;
+  margin-left: -6px;
+}
+
+.attribute-sub-attributes-summary {
+  font-size: x-small;
+}
+
+.attribute-sub-attribute-summary {
+  border-radius: 0px;
+  border: 0px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  margin-left: -1px
 }
 

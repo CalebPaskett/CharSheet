@@ -35,31 +35,55 @@ export const AttributeCard = (props) => {
       {modal && <AttributeModal index={props.index} attribute={props.attribute} attributeType={props.attributeType} closeModal={setModal} userId={props.userId} characterId={props.characterId}/>}
 
       {!props.attribute.types.includes("separator") &&
-        <details open={false}>
+        <details open={false} className={props.is_sub ? "attribute-sub-attribute-summary" : ""}>
           <summary>
-            <div className='attribute-main'> 
+            <div className='attribute-main'>
               <span className='attribute-title-box'>
                 <span className='attribute-title'>{props.attribute.name}</span>
-                {(props.attribute.details.alias !== '' ? props.attribute.details.alias : props.attribute.details.display) != props.attribute.name && <span className='attribute-sub-title'>{props.attribute.details.alias !== '' ? props.attribute.details.alias : props.attribute.details.display}</span>}
+                {(props.attribute.details.alias !== '' ? props.attribute.details.alias : props.attribute.details.display) !== props.attribute.name && <span className='attribute-sub-title'>{props.attribute.details.alias !== '' ? props.attribute.details.alias : props.attribute.details.display}</span>}
               </span>
 
-              <span className='attribute-damage'><GiAllForOne/>{props.attribute.damage}</span>
-              <span className='attribute-range'><TbTargetArrow/>{props.attribute.range}</span>
-              <TypesDisplay types={props.attribute.types}/>
-              <SFXDisplay sfx={props.attribute.details.sfx}/>
-              <span className='attribute-sfx-box'>{}</span>
-              {props.attribute.roll && <span className='attribute-roll'><IoDiceSharp/>{props.attribute.roll}</span>}
-              {props.attributeType == 'powers' && <span className='attribute-end-box'>
+              {(props.attributeType === 'powers' || props.attributeType === 'equipment' || props.attribute.damage) && <span className='attribute-damage-box'>
+                {props.attribute.damage && <span className='attribute-damage-or-range-sub-box'><GiAllForOne/>{props.attribute.damage}</span>}
+              </span>}
+
+              {(props.attributeType === 'powers' || props.attributeType === 'equipment' || props.attribute.range) && <span className='attribute-damage-box'>
+                {props.attribute.range && <span className='attribute-damage-or-range-sub-box'><TbTargetArrow/>{props.attribute.range}</span>}
+              </span>}
+
+              <span className='attribute-types-box'><TypesDisplay types={props.attribute.types}/></span>
+              <span className='attribute-sfx-box'><SFXDisplay sfx={props.attribute.details.sfx}/></span>              
+
+              {(props.attributeType === 'skills' || props.attribute.roll) && <span className='attribute-end-box'>
+                <div className='attribute-divider'></div>
+                {props.attribute.roll && <span className='attribute-end-sub-box'><IoDiceSharp/><span className='attribute-end'>{props.attribute.roll}</span></span>}
+              </span>}
+              {(props.attributeType === 'powers' || props.attributeType === 'equipment' || props.attribute.end) && <span className='attribute-end-box'>
                 <div className='attribute-divider'></div>
                 {props.attribute.end && <span className='attribute-end-sub-box'><SlEnergy/><span className='attribute-end'>{props.attribute.end}</span></span>}
               </span>}
             </div>
+
+            {props.attribute.types.includes("list") && <details open={true} className='attribute-sub-attributes-details'>
+              <summary className="attribute-sub-attributes-summary">Sub-{props.attributeType.charAt(0).toUpperCase() + props.attributeType.slice(1)}</summary>
+              {props.attribute.contents.map((attribute, index) => (
+                <div key={index}>
+                  <AttributeCard index={index} attribute={attribute} attributeType={props.attributeType} userId={props.userId} characterId={props.characterId} is_sub={true}/>
+                </div>
+              ))}
+            </details>}
+
+            {props.attribute.types.includes("compound") && <details open={true} className='attribute-sub-attributes-details'>
+              <summary className="attribute-sub-attributes-summary">Component Powers</summary>
+              {props.attribute.components.map((attribute, index) => (
+                <div key={index}>
+                  <AttributeCard index={index} attribute={attribute} attributeType={props.attributeType} userId={props.userId} characterId={props.characterId} is_sub={true}/>
+                </div>
+              ))}
+            </details>}
+
           </summary>
           {(typeof props.attribute.levels !== 'undefined') && <div>Levels: {props.attribute.levels}</div>}
-          {(typeof props.attribute.roll !== 'undefined' && props.attribute.roll !== "") && <div>Roll: {props.attribute.roll}</div>}
-          {(typeof props.attribute.damage !== 'undefined' && props.attribute.damage !== "") && <div>Damage: {props.attribute.damage}</div>}
-          {(typeof props.attribute.end !== 'undefined' && props.attribute.end !== "") && <div>END: {props.attribute.end}</div>}
-          {(typeof props.attribute.range !== 'undefined' && props.attribute.range !== "") && <div>Range: {props.attribute.range}</div>}
 
           {(typeof props.attribute.phase !== 'undefined' && props.attribute.phase !== "") && <div>Phases: {props.attribute.phase}</div>}
           {(typeof props.attribute.ocv !== 'undefined' && props.attribute.ocv !== "") && <div>OCV: {props.attribute.ocv}</div>}
@@ -83,26 +107,7 @@ export const AttributeCard = (props) => {
             <div>Text: {props.attribute.details.text}</div>
             <div>Option: {props.attribute.details.option}</div>
             <div>Input: {props.attribute.details.input}</div>
-            <div>Sfx: {props.attribute.details.sfx}</div>
           </details>
-
-          {props.attribute.types.includes("list") && <details>
-            <summary>Sub-{props.attributeType.charAt(0).toUpperCase() + props.attributeType.slice(1)}</summary>
-            {props.attribute.contents.map((attribute, index) => (
-              <div key={index}>
-                <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId} is_sub={true}/>
-              </div>
-            ))}
-          </details>}
-
-          {props.attribute.types.includes("compound") && <details>
-            <summary>Component Powers</summary>
-            {props.attribute.components.map((attribute, index) => (
-              <div key={index}>
-                <AttributeCard index={index} attribute={attribute} userId={props.userId} characterId={props.characterId} is_sub={true}/>
-              </div>
-            ))}
-          </details>}
 
           {(props.attribute.modifiers.length > 0) && <details>
             <summary>Modifiers</summary>
@@ -122,20 +127,6 @@ export const AttributeCard = (props) => {
             ))}
           </details>}
 
-          {props.attribute.types.includes("enhancer") &&        <div>Enhancer</div>}
-          {props.attribute.types.includes("everyman") &&        <div>Everyman</div>}
-          {props.attribute.types.includes("adjustment") &&      <div>Adjustment Power</div>}
-          {props.attribute.types.includes("attack") &&          <div>Attack Power</div>}
-          {props.attribute.types.includes("body_affecting") &&  <div>Body Affecting Power</div>}
-          {props.attribute.types.includes("defense") &&         <div>Defense Power</div>}
-          {props.attribute.types.includes("ec") &&              <div>Elemental Control Power</div>}
-          {props.attribute.types.includes("mental") &&          <div>Mental Power</div>}
-          {props.attribute.types.includes("movement") &&        <div>Movement Power</div>}
-          {props.attribute.types.includes("sense_affecting") && <div>Sense Affecting Power</div>}
-          {props.attribute.types.includes("sensory") &&         <div>Sensory Power</div>}
-          {props.attribute.types.includes("special") &&         <div>Special Power</div>}
-          {props.attribute.types.includes("multipower") &&      <div>Multipower</div>}
-          {props.attribute.types.includes("vpp") &&             <div>Variable Power Pool</div>}
           {props.attribute.types.includes("compound") &&        <div>Compound Power</div>}
 
           {!props.is_sub && <button type="button" onClick={() => (setModal(true))}><FaEdit/></button>}
